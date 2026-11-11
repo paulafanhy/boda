@@ -2,6 +2,12 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.7.1',
+    fecha: '2026-11-11 15:10',
+    titulo: 'Anillos transparentes',
+    cambios: ['El hueco del anillo derecho ahora es transparente, igual que el izquierdo']
+  },
+  {
     version: '1.7.0',
     fecha: '2026-11-11 15:05',
     titulo: 'Nuevo logo de anillos y plantas de línea fina',
