@@ -2,6 +2,17 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.7.0',
+    fecha: '2026-11-11 15:05',
+    titulo: 'Nuevo logo de anillos y plantas de línea fina',
+    cambios: [
+      'Fuera el monograma P & F: nuevo logo con dos anillos entrelazados, "PAULA Y FANHY" y la fecha',
+      'Portada con los anillos, los nombres en mayúsculas espaciadas y la fecha 04/09/2027',
+      'Ramas y ramitas redibujadas a trazo fino con florecitas y mancha menta de fondo',
+      'Logo nuevo también en la página de fotos, el panel y la imagen de WhatsApp'
+    ]
+  },
+  {
     version: '1.6.0',
     fecha: '2026-11-11 14:50',
     titulo: 'Auditoría y arreglos',
