@@ -2,6 +2,12 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.10.1',
+    fecha: '2026-11-11 15:45',
+    titulo: 'Fecha a mano',
+    cambios: ['La fecha bajo los nombres y los anillos pasa a letra escrita a mano (Amsterdam), en portada, pie, fotos, panel y WhatsApp']
+  },
+  {
     version: '1.10.0',
     fecha: '2026-11-11 15:35',
     titulo: 'Plantas dibujadas a mano',
