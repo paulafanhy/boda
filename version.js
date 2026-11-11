@@ -2,6 +2,17 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.5.1',
+    fecha: '2026-11-11 14:15',
+    titulo: 'Carrusel de fotos',
+    cambios: [
+      'Las fotos de vuestra historia pasan solas cada 4 segundos y vuelven al principio al terminar',
+      'Flechas a los lados y puntitos para saltar a cualquier foto',
+      'Se pueden seguir deslizando con el dedo; al tocar, se pausa el paso automático un momento',
+      'En pantallas grandes el carrusel ocupa todo el ancho'
+    ]
+  },
+  {
     version: '1.5.0',
     fecha: '2026-11-11 14:05',
     titulo: 'Fotos de invitados a Google Drive',

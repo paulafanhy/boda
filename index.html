@@ -181,6 +181,15 @@ h2{font-family:'Pinyon Script',cursive;font-weight:400;font-size:clamp(46px,12vw
 @media(min-width:720px){.pola{flex-basis:260px}}
 .version{display:inline-block;margin-top:10px;font-size:12px;color:var(--suave);text-decoration:none;letter-spacing:.5px}
 .version:hover{color:var(--menta5)}
+
+.galeria-wrap{position:relative;margin:0 -20px}
+.galeria-wrap .carrusel{margin:20px 0 0;scroll-behavior:smooth}
+.flecha{position:absolute;top:46%;transform:translateY(-50%);z-index:2;width:42px;height:42px;border-radius:50%;border:1px solid var(--beige1);background:rgba(255,255,255,.92);color:var(--menta5);font-size:22px;line-height:1;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 12px rgba(70,55,30,.12)}
+.flecha.izq{left:8px}.flecha.der{right:8px}
+.puntos{display:flex;justify-content:center;gap:7px;margin-top:2px}
+.puntos button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:var(--beige1);cursor:pointer;transition:all .25s}
+.puntos button.on{background:var(--menta5);width:20px;border-radius:99px}
+@media(min-width:720px){.galeria-wrap{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}.galeria-wrap .carrusel{padding-left:max(24px,calc(50vw - 360px));padding-right:max(24px,calc(50vw - 360px))}}
 </style>
 </head>
 <body>
@@ -284,7 +293,12 @@ h2{font-family:'Pinyon Script',cursive;font-weight:400;font-size:clamp(46px,12vw
     <h2>Nuestra historia</h2>
     <p class="sub">cómo empezó todo</p>
     <div class="texto" id="historia-texto"></div>
-    <div class="carrusel" id="historia-fotos"></div>
+    <div class="galeria-wrap" id="galeria-wrap" hidden>
+      <button class="flecha izq" id="gal-ant" aria-label="Foto anterior">‹</button>
+      <div class="carrusel" id="historia-fotos"></div>
+      <button class="flecha der" id="gal-sig" aria-label="Foto siguiente">›</button>
+      <div class="puntos" id="gal-puntos"></div>
+    </div>
   </div>
 </section>
 
@@ -723,8 +737,44 @@ async function fotosHistoria(){
   if (!fotos.length) return;
   const giros = [-3, 2, -1.5, 3, -2.5, 1.5];
   $('#historia-fotos').innerHTML = fotos.map((f, i) => `<figure class="pola" style="--r:${giros[i % giros.length]}deg"><img loading="lazy" src="${urlFoto('historia/' + f.name)}" alt="Paula y Fanhy"></figure>`).join('');
+  $('#galeria-wrap').hidden = false;
   $('#historia').hidden = false;
+  carrusel(fotos.length);
   observar();
+}
+
+
+// ---------- CARRUSEL DE FOTOS ----------
+function carrusel(n){
+  const c = $('#historia-fotos');
+  const pasos = () => [...c.children];
+  $('#gal-puntos').innerHTML = Array.from({ length:n }, (_, i) => `<button aria-label="Foto ${i + 1}"></button>`).join('');
+  const puntos = [...$('#gal-puntos').children];
+  const actual = () => {
+    const centro = c.scrollLeft + c.clientWidth / 2;
+    let mejor = 0, dist = Infinity;
+    pasos().forEach((el, i) => { const d = Math.abs(el.offsetLeft + el.offsetWidth / 2 - centro); if (d < dist) { dist = d; mejor = i; } });
+    return mejor;
+  };
+  const ir = i => {
+    const el = pasos()[(i + n) % n]; if (!el) return;
+    c.scrollTo({ left: el.offsetLeft + el.offsetWidth / 2 - c.clientWidth / 2 });
+  };
+  const marcar = () => { const a = actual(); puntos.forEach((p, i) => p.classList.toggle('on', i === a)); };
+  c.addEventListener('scroll', () => { clearTimeout(c._t); c._t = setTimeout(marcar, 80); }, { passive:true });
+  puntos.forEach((p, i) => p.onclick = () => { ir(i); reiniciar(); });
+  $('#gal-ant').onclick = () => { ir(actual() - 1); reiniciar(); };
+  $('#gal-sig').onclick = () => { ir(actual() + 1); reiniciar(); };
+  let muchas = false, timer;
+  const medir = () => {
+    muchas = c.scrollWidth > c.clientWidth + 4;
+    $('#gal-ant').hidden = $('#gal-sig').hidden = $('#gal-puntos').hidden = !muchas;
+  };
+  const auto = () => { if (!document.hidden && muchas) ir(actual() + 1); };
+  function reiniciar(){ clearInterval(timer); if (!matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(auto, 4000); }
+  medir(); addEventListener('resize', () => { medir(); marcar(); });
+  ['touchstart','pointerdown'].forEach(ev => c.addEventListener(ev, reiniciar, { passive:true }));
+  marcar(); reiniciar();
 }
 
 // ---------- MÚSICA ----------
