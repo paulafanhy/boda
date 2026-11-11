@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="only light">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#F5EFE6">
 <title>Paula &amp; Fanny · 4 de septiembre de 2027</title>
@@ -12,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
+:root{color-scheme:only light;
   --menta0:#E6FFF5;--menta1:#C3F5E5;--menta2:#A2EBD5;--menta3:#7ACDB4;--menta4:#4FA88C;--menta5:#2A8872;
   --beige0:#F5EFE6;--beige1:#E8DCC8;--beige2:#C9B79C;
   --texto:#2f3b37;--suave:#6b7a74;--rojo:#b5524a;
@@ -47,8 +48,8 @@ section{padding:72px 20px}
 #portada.sinfoto{align-items:center;padding-bottom:0}
 #portada.sinfoto .velo{display:none}
 .heroin{position:relative;text-align:center}
-.mono{width:96px;height:96px;border-radius:50%;border:1.5px solid var(--menta4);box-shadow:0 0 0 6px var(--beige0),0 0 0 7px var(--beige2);display:grid;place-items:center;margin:0 auto 22px;font-family:var(--serif);font-style:italic;font-size:36px;color:var(--menta5);background:var(--beige0)}
-.mono span{color:var(--beige2);font-size:20px;margin:0 3px;position:relative;top:-7px}
+.mono{width:96px;height:96px;border-radius:50%;border:1.5px solid var(--menta4);box-shadow:0 0 0 6px var(--beige0),0 0 0 7px var(--beige2);display:flex;flex-direction:row;align-items:center;justify-content:center;white-space:nowrap;line-height:1;margin:0 auto 22px;font-family:var(--serif);font-style:italic;font-size:36px;color:var(--menta5);background:var(--beige0)}
+.mono span{color:var(--beige2);font-size:20px;margin:0 3px;position:relative;top:-4px}
 .nombres{font-family:var(--serif);font-weight:400;font-size:clamp(52px,14vw,92px);line-height:1;color:var(--menta5);margin:0}
 .nombres i{color:var(--beige2);font-size:.6em}
 .frase{font-family:var(--serif);font-style:italic;font-size:22px;margin:10px 0 6px;color:var(--texto)}
@@ -128,7 +129,7 @@ textarea{min-height:80px;resize:vertical}
 .gracias h3{font-family:var(--serif);font-weight:400;font-size:32px;color:var(--menta5);margin:0 0 8px}
 
 /* FOTOS + PIE */
-.camara{width:64px;height:64px;border-radius:50%;background:var(--menta1);display:grid;place-items:center;margin:0 auto 18px}
+.camara{width:64px;height:64px;border-radius:50%;background:var(--menta1);display:flex;flex-direction:row;align-items:center;justify-content:center;white-space:nowrap;line-height:1;margin:0 auto 18px}
 .camara svg{width:30px;height:30px;stroke:var(--menta5);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
 footer{padding:56px 20px 70px;text-align:center;background:var(--beige1)}
 footer .mono{background:var(--beige1);box-shadow:0 0 0 6px var(--beige1),0 0 0 7px var(--beige2)}

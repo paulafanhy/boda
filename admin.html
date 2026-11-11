@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="only light">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#2A8872">
@@ -9,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
+:root{color-scheme:only light;
   --menta0:#E6FFF5;--menta1:#C3F5E5;--menta2:#A2EBD5;--menta3:#7ACDB4;--menta4:#4FA88C;--menta5:#2A8872;
   --beige0:#F5EFE6;--beige1:#E8DCC8;--beige2:#C9B79C;--blanco:#fff;
   --texto:#2f3b37;--suave:#6b7a74;--rojo:#b5524a;--radio:14px
@@ -29,8 +30,8 @@ input:focus,textarea:focus{outline:2px solid var(--menta3);border-color:transpar
 textarea{min-height:110px;resize:vertical}
 label{display:block;font-size:13px;color:var(--suave);margin:14px 0 6px}
 .tarjeta{background:#fff;border-radius:var(--radio);padding:16px;margin-bottom:14px;border:1px solid var(--beige1)}
-.monograma{width:92px;height:92px;border-radius:50%;border:1.5px solid var(--menta4);box-shadow:0 0 0 5px #fff,0 0 0 6px var(--beige2);display:grid;place-items:center;margin:0 auto 18px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:34px;color:var(--menta5)}
-.monograma span{color:var(--beige2);font-size:20px;margin:0 3px;position:relative;top:-6px}
+.monograma{width:92px;height:92px;border-radius:50%;border:1.5px solid var(--menta4);box-shadow:0 0 0 5px #fff,0 0 0 6px var(--beige2);display:flex;flex-direction:row;align-items:center;justify-content:center;white-space:nowrap;line-height:1;margin:0 auto 18px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:34px;color:var(--menta5)}
+.monograma span{color:var(--beige2);font-size:20px;margin:0 3px;position:relative;top:-4px}
 
 /* login */
 #login{min-height:100vh;display:grid;place-items:center;padding:20px}
