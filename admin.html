@@ -252,11 +252,11 @@ function pintarStats(){
   const si = lista.filter(r => r.asiste);
   const sum = f => si.filter(f).reduce((n, r) => n + personas(r), 0);
   const total = sum(() => true);
-  const ninos = si.reduce((n, r) => n + (r.ninos || 0), 0);
+  const acomp = si.reduce((n, r) => n + (r.acompanantes || 0), 0);
   const dup = invitados.length - lista.length;
   const datos = [
     [total, 'personas vienen'],
-    [ninos, 'de ellos, niños'],
+    [acomp, 'de ellos, acompañantes'],
     [lista.length - si.length, 'respuestas "no vengo"'],
     [lista.length, 'respuestas en total'],
     [sum(r => r.duerme === 'si'), 'se quedan a dormir'],
@@ -287,7 +287,6 @@ function pintarInvitados(){
         ${rep.has(r.id) ? '<span class="chip dupc">Repetida · no cuenta</span>' : ''}
         <span class="chip ${r.asiste ? '' : 'b'}">${r.asiste ? 'Viene' : 'No viene'}</span>
         ${r.asiste ? `<span class="chip">${personas(r)} persona${personas(r) > 1 ? 's' : ''}</span>` : ''}
-        ${r.asiste && r.ninos ? `<span class="chip b">${r.ninos} niño${r.ninos > 1 ? 's' : ''}</span>` : ''}
         ${r.asiste ? `<span class="chip ${r.duerme === 'si' ? '' : 'b'}">${duerme[r.duerme]}</span>` : ''}
         ${r.asiste && r.desayuno ? '<span class="chip">Desayuno</span>' : ''}
         ${r.asiste && r.comida ? '<span class="chip">Comida</span>' : ''}
@@ -314,11 +313,11 @@ $('#lista-invitados').onclick = async e => {
 $('#exportar').onclick = () => {
   if (!invitados.length) { toast('No hay datos todavía'); return; }
   const rep = repetidas();
-  const cab = ['Repetida','Fecha','Nombre','Teléfono','Viene','Personas','Niños','Acompañantes','Alergias','Duerme','Desayuno','Comida','Canción','Comentarios'];
+  const cab = ['Repetida','Fecha','Nombre','Teléfono','Viene','Personas','Acompañantes','Alergias','Duerme','Desayuno','Comida','Canción','Comentarios'];
   const sn = b => b ? 'Sí' : 'No';
   const filas = invitados.map(r => [
     rep.has(r.id) ? 'Sí (no contar)' : '', new Date(r.created_at).toLocaleString('es-ES'), r.nombre, r.telefono, sn(r.asiste),
-    r.asiste ? personas(r) : 0, r.ninos, r.nombres_acompanantes, r.alergias,
+    r.asiste ? personas(r) : 0, r.nombres_acompanantes, r.alergias,
     { si:'Sí', no:'No', nose:'No sabe' }[r.duerme], sn(r.desayuno), sn(r.comida), r.cancion, r.comentarios
   ]);
   const csv = [cab, ...filas].map(f => f.map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(';')).join('\r\n');

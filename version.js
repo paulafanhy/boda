@@ -2,6 +2,12 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.11.1',
+    fecha: '2026-11-11 16:00',
+    titulo: 'Sin niños',
+    cambios: ['Quitada la pregunta de niños del formulario y del panel: la boda es solo de adultos']
+  },
+  {
     version: '1.11.0',
     fecha: '2026-11-11 15:55',
     titulo: 'Menos adornos, más aire',

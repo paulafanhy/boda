@@ -315,16 +315,8 @@ h2{font-family:'Amsterdam','Pinyon Script',cursive;font-weight:400;font-size:cla
 
       <div id="si-viene" hidden>
         <div class="bloque">
-          <div class="dos">
-            <div>
-              <label for="f-acomp">Acompañantes</label>
-              <input type="number" id="f-acomp" min="0" max="10" value="0" inputmode="numeric">
-            </div>
-            <div>
-              <label for="f-ninos">De ellos, niños</label>
-              <input type="number" id="f-ninos" min="0" max="10" value="0" inputmode="numeric">
-            </div>
-          </div>
+          <label for="f-acomp">¿Cuántos acompañantes vienen contigo?</label>
+          <input type="number" id="f-acomp" min="0" max="10" value="0" inputmode="numeric" style="max-width:120px">
           <div id="caja-nombres" hidden>
             <label for="f-nombres">Nombres de tus acompañantes</label>
             <input type="text" id="f-nombres" maxlength="400">
@@ -670,15 +662,12 @@ form.onsubmit = async e => {
   if (!asisteVal) { err.textContent = 'Dinos si podrás venir.'; return; }
   const asiste = asisteVal === 'si';
   const acompanantes = asiste ? num('#f-acomp') : 0;
-  const ninos = asiste ? num('#f-ninos') : 0;
-  if (ninos > acompanantes) { err.textContent = 'El número de niños no puede ser mayor que el de acompañantes.'; return; }
 
   const fila = {
     nombre,
     telefono: $('#f-tel').value.trim() || null,
     asiste,
     acompanantes,
-    ninos,
     nombres_acompanantes: asiste && acompanantes ? ($('#f-nombres').value.trim() || null) : null,
     alergias: asiste ? ($('#f-alergias').value.trim() || null) : null,
     duerme: asiste ? (form.duerme.value || 'nose') : 'no',
