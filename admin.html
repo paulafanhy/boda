@@ -38,6 +38,7 @@ label{display:block;font-size:13px;color:var(--suave);margin:14px 0 6px}
 #login .tarjeta{width:100%;max-width:360px;padding:28px 22px;text-align:center}
 #login label{text-align:left}
 #login .btn{width:100%;margin-top:18px}
+.volver{display:inline-block;margin-top:14px;font-size:14px;color:var(--suave);text-decoration:none}
 .error{color:var(--rojo);font-size:13px;min-height:20px;margin-top:10px}
 
 /* panel */
@@ -152,6 +153,7 @@ main{max-width:860px;margin:0 auto;padding:16px}
     <input id="pass" type="password" autocomplete="current-password" required>
     <button class="btn" type="submit" id="btn-login">Entrar</button>
     <div class="error" id="login-err"></div>
+    <a href="./" class="volver">← Volver a la web</a>
   </form>
 </section>
 
@@ -160,7 +162,7 @@ main{max-width:860px;margin:0 auto;padding:16px}
   <header>
     <div class="cab">
       <h1>Paula &amp; Fanhy · Admin</h1>
-      <button class="btn sec" id="salir">Salir</button>
+      <div style="display:flex;gap:8px"><a class="btn sec" href="./" target="_blank" rel="noopener" style="text-decoration:none">Ver web</a><button class="btn sec" id="salir">Salir</button></div>
     </div>
     <nav class="tabs">
       <button data-tab="invitados" class="activa">Invitados</button>
@@ -258,7 +260,7 @@ async function entrar(){
   abrirTab('invitados');
 }
 
-$('#salir').onclick = async () => { await sb.auth.signOut(); location.reload(); };
+$('#salir').onclick = async () => { await sb.auth.signOut(); location.href = './'; };
 
 // ---------- PESTAÑAS ----------
 document.querySelectorAll('.tabs button').forEach(b => b.onclick = () => abrirTab(b.dataset.tab));
