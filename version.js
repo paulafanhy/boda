@@ -2,6 +2,16 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.11.0',
+    fecha: '2026-11-11 15:55',
+    titulo: 'Menos adornos, más aire',
+    cambios: [
+      'Quitadas las ramitas horizontales de encima de los títulos',
+      'Solo ramas y hojas (sin flores): ramita de hojas, eucalipto, sauce, brotes, helecho y hojas largas',
+      'Seis plantas en total, una distinta en cada sección y siempre de pie'
+    ]
+  },
+  {
     version: '1.10.0',
     fecha: '2026-11-11 15:35',
     titulo: 'Plantas dibujadas a mano',
