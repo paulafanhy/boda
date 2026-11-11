@@ -2,6 +2,24 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.6.0',
+    fecha: '2026-11-11 14:50',
+    titulo: 'Auditoría y arreglos',
+    cambios: [
+      'Visita automática a la base de datos cada 3 días para que no se pause',
+      'Panel: las respuestas repetidas se marcan y solo cuenta la más reciente de cada persona',
+      'Imagen de vista previa al compartir el enlace por WhatsApp',
+      'La web no aparece en Google ni en otros buscadores',
+      'Un cambio de portada se ve en la web en un minuto',
+      'Las fotos que subís desde iPhone en el panel pesan mucho menos',
+      'La web pesa la mitad y carga más rápido',
+      'Después de la boda, la cuenta atrás da las gracias',
+      'Frase de privacidad bajo el formulario',
+      'Errores del formulario accesibles para lectores de pantalla',
+      'Archivo de calendario con acentos correctos'
+    ]
+  },
+  {
     version: '1.5.2',
     fecha: '2026-11-11 14:30',
     titulo: 'Lugares',

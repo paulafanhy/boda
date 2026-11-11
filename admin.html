@@ -59,6 +59,9 @@ main{max-width:860px;margin:0 auto;padding:16px}
 .barra{display:flex;gap:8px;margin-bottom:12px}
 .barra input{flex:1}
 .inv{border-left:4px solid var(--menta3)}
+.inv.dup{border-left-color:#d9a441;background:#fffaf0}
+.chip.dupc{background:#f6e3b8;color:#7a5410}
+.aviso-dup{grid-column:1/-1;background:#fff6e0;border:1px solid #f0d9a0;color:#6b4c12;border-radius:12px;padding:10px 12px;font-size:13px}
 .inv.no{border-left-color:var(--beige2);opacity:.8}
 .inv .fila{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
 .inv h3{font-family:Inter,sans-serif;font-size:16px;color:var(--texto);font-weight:500}
@@ -76,6 +79,7 @@ main{max-width:860px;margin:0 auto;padding:16px}
 .subir{display:inline-block}
 .subir input{display:none}
 .vacio{color:var(--suave);font-size:14px;text-align:center;padding:18px}
+.ayuda a{color:var(--menta5)}
 .ayuda{font-size:12px;color:var(--suave);margin-top:6px}
 #toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--texto);color:#fff;padding:10px 16px;border-radius:10px;font-size:14px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:20;max-width:90vw}
 #toast.ver{opacity:1}
@@ -288,39 +292,57 @@ async function cargarInvitados(){
 
 function personas(r){ return 1 + (r.acompanantes || 0); }
 
+// Nombre normalizado para detectar respuestas repetidas (sin tildes, mayúsculas ni espacios de más)
+const clave = n => String(n || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+
+// invitados viene ordenado del más reciente al más antiguo: la primera aparición de cada nombre es la que vale
+function vigentes(){
+  const vistos = new Set();
+  return invitados.filter(r => { const k = clave(r.nombre); if (vistos.has(k)) return false; vistos.add(k); return true; });
+}
+function repetidas(){
+  const vig = new Set(vigentes().map(r => r.id));
+  return new Set(invitados.filter(r => !vig.has(r.id)).map(r => r.id));
+}
+
 function pintarStats(){
-  const si = invitados.filter(r => r.asiste);
+  const lista = vigentes();
+  const si = lista.filter(r => r.asiste);
   const sum = f => si.filter(f).reduce((n, r) => n + personas(r), 0);
   const total = sum(() => true);
   const ninos = si.reduce((n, r) => n + (r.ninos || 0), 0);
+  const dup = invitados.length - lista.length;
   const datos = [
     [total, 'personas vienen'],
     [ninos, 'de ellos, niños'],
-    [invitados.length - si.length, 'respuestas "no vengo"'],
-    [invitados.length, 'respuestas en total'],
+    [lista.length - si.length, 'respuestas "no vengo"'],
+    [lista.length, 'respuestas en total'],
     [sum(r => r.duerme === 'si'), 'se quedan a dormir'],
     [sum(r => r.duerme === 'nose'), 'aún no saben si duermen'],
     [sum(r => r.desayuno), 'desayunos día siguiente'],
     [sum(r => r.comida), 'comidas día siguiente']
   ];
-  $('#stats').innerHTML = datos.map(([n, t]) => `<div class="stat"><b>${n}</b><small>${t}</small></div>`).join('');
+  $('#stats').innerHTML = datos.map(([n, t]) => `<div class="stat"><b>${n}</b><small>${t}</small></div>`).join('') +
+    (dup ? `<div class="aviso-dup">⚠️ Hay ${dup} respuesta${dup > 1 ? 's' : ''} repetida${dup > 1 ? 's' : ''} (mismo nombre). En los totales solo cuenta la más reciente de cada persona; las antiguas aparecen marcadas y podéis borrarlas.</div>` : '');
 }
 
 function pintarInvitados(){
-  const q = $('#buscar').value.trim().toLowerCase();
-  const lista = invitados.filter(r => !q || (r.nombre + ' ' + (r.nombres_acompanantes || '')).toLowerCase().includes(q));
+  const q = clave($('#buscar').value);
+  const rep = repetidas();
+  const lista = invitados.filter(r => !q || clave(r.nombre + ' ' + (r.nombres_acompanantes || '')).includes(q));
   if (!lista.length) { $('#lista-invitados').innerHTML = '<p class="vacio">Todavía no hay respuestas.</p>'; return; }
   const duerme = { si:'Duerme', no:'No duerme', nose:'Duerme: no sabe' };
   $('#lista-invitados').innerHTML = lista.map(r => `
-    <div class="tarjeta inv ${r.asiste ? '' : 'no'}">
+    <div class="tarjeta inv ${r.asiste ? '' : 'no'} ${rep.has(r.id) ? 'dup' : ''}">
       <div class="fila">
         <div>
           <h3>${esc(r.nombre)}</h3>
-          <div class="dato">${new Date(r.created_at).toLocaleDateString('es-ES', { day:'numeric', month:'short', year:'numeric' })}${r.telefono ? ' · ' + esc(r.telefono) : ''}</div>
+          <div class="dato">${new Date(r.created_at).toLocaleString('es-ES', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })}${r.telefono ? ' · ' + esc(r.telefono) : ''}</div>
         </div>
         <button class="btn peligro" data-borrar="${r.id}">Borrar</button>
       </div>
       <div class="chips">
+        ${rep.has(r.id) ? '<span class="chip dupc">Repetida · no cuenta</span>' : ''}
         <span class="chip ${r.asiste ? '' : 'b'}">${r.asiste ? 'Viene' : 'No viene'}</span>
         ${r.asiste ? `<span class="chip">${personas(r)} persona${personas(r) > 1 ? 's' : ''}</span>` : ''}
         ${r.asiste && r.ninos ? `<span class="chip b">${r.ninos} niño${r.ninos > 1 ? 's' : ''}</span>` : ''}
@@ -349,10 +371,11 @@ $('#lista-invitados').onclick = async e => {
 
 $('#exportar').onclick = () => {
   if (!invitados.length) { toast('No hay datos todavía'); return; }
-  const cab = ['Fecha','Nombre','Teléfono','Viene','Personas','Niños','Acompañantes','Alergias','Duerme','Desayuno','Comida','Canción','Comentarios'];
+  const rep = repetidas();
+  const cab = ['Repetida','Fecha','Nombre','Teléfono','Viene','Personas','Niños','Acompañantes','Alergias','Duerme','Desayuno','Comida','Canción','Comentarios'];
   const sn = b => b ? 'Sí' : 'No';
   const filas = invitados.map(r => [
-    new Date(r.created_at).toLocaleString('es-ES'), r.nombre, r.telefono, sn(r.asiste),
+    rep.has(r.id) ? 'Sí (no contar)' : '', new Date(r.created_at).toLocaleString('es-ES'), r.nombre, r.telefono, sn(r.asiste),
     r.asiste ? personas(r) : 0, r.ninos, r.nombres_acompanantes, r.alergias,
     { si:'Sí', no:'No', nose:'No sabe' }[r.duerme], sn(r.desayuno), sn(r.comida), r.cancion, r.comentarios
   ]);
@@ -376,7 +399,11 @@ function comprimir(file, max = 1600, calidad = 0.8){
       c.width = Math.round(img.width * r); c.height = Math.round(img.height * r);
       c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
       URL.revokeObjectURL(img.src);
-      c.toBlob(b => b ? ok(b) : mal(new Error('compresión')), 'image/webp', calidad);
+      // Safari (iPhone) no sabe comprimir a WebP y devuelve PNG enorme: en ese caso, JPEG
+      c.toBlob(b => {
+        if (b && b.type === 'image/webp') return ok(b);
+        c.toBlob(j => j ? ok(j) : mal(new Error('compresión')), 'image/jpeg', 0.85);
+      }, 'image/webp', calidad);
     };
     img.onerror = () => mal(new Error('No se pudo leer la imagen'));
     img.src = URL.createObjectURL(file);
@@ -385,7 +412,8 @@ function comprimir(file, max = 1600, calidad = 0.8){
 
 async function subirWeb(file, ruta){
   const blob = await comprimir(file);
-  const { error } = await sb.storage.from(WEB).upload(ruta, blob, { upsert:true, contentType:'image/webp' });
+  // caché corta para que un cambio de portada se vea enseguida en la web
+  const { error } = await sb.storage.from(WEB).upload(ruta, blob, { upsert:true, contentType:blob.type, cacheControl:'60' });
   if (error) throw error;
 }
 
