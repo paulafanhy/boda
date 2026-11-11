@@ -2,6 +2,15 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.4.2',
+    fecha: '2026-11-11 12:30',
+    titulo: 'Dirección más corta',
+    cambios: [
+      'La web pasa a paulafanhy.github.io (sin /boda)',
+      'QR de fotos actualizado a la nueva dirección'
+    ]
+  },
+  {
     version: '1.4.1',
     fecha: '2026-11-11 12:25',
     titulo: 'Más limpio y legible',
