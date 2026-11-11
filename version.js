@@ -1,0 +1,66 @@
+// Versión de la web y registro de cambios.
+// Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
+window.CHANGELOG = [
+  {
+    version: '1.4.0',
+    fecha: '2026-11-11 12:30',
+    titulo: 'La web se viste de boda',
+    cambios: [
+      'Ramas de eucalipto decorando las esquinas de las secciones',
+      'Separadores con ramita bajo cada título',
+      'Manchas de acuarela menta detrás de los títulos',
+      'Bordes ondulados entre secciones',
+      'Títulos con letra caligráfica, la misma del monograma',
+      'Horario con iconos dibujados según el momento (ceremonia, cóctel, banquete, fiesta…)',
+      'Fotos de vuestra historia en estilo polaroid',
+      'Versión y registro de cambios al pie de la web'
+    ]
+  },
+  {
+    version: '1.3.0',
+    fecha: '2026-11-11 11:55',
+    titulo: 'Ajustes y correcciones',
+    cambios: [
+      'Corregido el nombre: Fanhy',
+      'Más contraste en los colores para que todo se lea bien',
+      'Monograma centrado en la corona',
+      'Panel: "Salir" vuelve a la web, botón "Ver web" y enlace de vuelta en el login'
+    ]
+  },
+  {
+    version: '1.2.0',
+    fecha: '2026-11-11 11:43',
+    titulo: 'Nuevo monograma',
+    cambios: [
+      'Monograma con corona de hojas e iniciales caligráficas',
+      'Acceso discreto al panel desde el pie de la web'
+    ]
+  },
+  {
+    version: '1.1.0',
+    fecha: '2026-11-11 11:24',
+    titulo: 'Arreglos de diseño',
+    cambios: [
+      'Monograma corregido (las letras se apilaban)',
+      'La web se ve siempre en modo claro, aunque el móvil esté en modo oscuro'
+    ]
+  },
+  {
+    version: '1.0.0',
+    fecha: '2026-11-11 11:11',
+    titulo: 'Primera versión',
+    cambios: [
+      'Web con portada, cuenta atrás, historia, horario, lugares, información práctica y preguntas',
+      'Formulario de confirmación con alergias, acompañantes, dormir, desayuno y comida',
+      'Página para que los invitados suban fotos con QR',
+      'Panel de administración con contraseña'
+    ]
+  }
+];
+window.WEB_VERSION = window.CHANGELOG[0];
+
+window.fechaBonita = function (f) {
+  const [d, h] = f.split(' ');
+  const txt = new Date(d + 'T12:00:00').toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+  return h ? `${txt} · ${h}` : txt;
+};
