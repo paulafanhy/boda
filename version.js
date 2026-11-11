@@ -2,6 +2,17 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.10.0',
+    fecha: '2026-11-11 15:35',
+    titulo: 'Plantas dibujadas a mano',
+    cambios: [
+      'Nuevo juego de 6 plantas de trazo negro fino: ramita de hojas, eucalipto, margarita, hierbas, flor silvestre y helecho',
+      'Cada esquina de la web lleva una planta distinta con su mancha de color detrás',
+      'Nueva ramita con florecilla encima de los títulos',
+      'Imagen de WhatsApp actualizada con las plantas nuevas'
+    ]
+  },
+  {
     version: '1.9.0',
     fecha: '2026-11-11 15:25',
     titulo: 'Logo definitivo',
