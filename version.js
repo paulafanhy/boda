@@ -2,6 +2,16 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.5.0',
+    fecha: '2026-11-11 14:05',
+    titulo: 'Fotos de invitados a Google Drive',
+    cambios: [
+      'Las fotos que suben los invitados por el QR se guardan en Google Drive de la cuenta de la boda',
+      'Hasta 15 GB gratis: espacio para miles de fotos',
+      'Panel: botón para abrir la carpeta de Drive con las fotos de los invitados'
+    ]
+  },
+  {
     version: '1.4.1',
     fecha: '2026-11-11 12:25',
     titulo: 'Más limpio y legible',

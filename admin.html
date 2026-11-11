@@ -201,9 +201,10 @@ main{max-width:860px;margin:0 auto;padding:16px}
       </div>
 
       <div class="tarjeta">
-        <h2>Fotos de los invitados <small id="n-invitados" style="font-size:15px;color:var(--suave)"></small></h2>
-        <div class="galeria" id="gal-invitados"></div>
-        <p class="ayuda">Toca una foto para abrirla a tamaño completo y mantén pulsado para guardarla.</p>
+        <h2>Fotos de los invitados</h2>
+        <p style="margin:0 0 14px;color:var(--suave)">Las fotos que suben los invitados con el QR se guardan en una carpeta de Google Drive de la cuenta de la boda.</p>
+        <a class="btn" id="btn-drive" href="https://drive.google.com/drive/search?q=%22Fotos%20invitados%22" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block">Abrir carpeta en Drive</a>
+        <p class="ayuda">Ábrela con la sesión de Google de la boda iniciada. Desde Drive podéis verlas, descargarlas todas de golpe o borrarlas.</p>
       </div>
     </div>
 
@@ -363,7 +364,7 @@ $('#exportar').onclick = () => {
 };
 
 // ---------- FOTOS ----------
-const WEB = 'fotos-web', INV = 'fotos-invitados';
+const WEB = 'fotos-web';
 const urlPublica = p => sb.storage.from(WEB).getPublicUrl(p).data.publicUrl + '?v=' + Date.now();
 
 function comprimir(file, max = 1600, calidad = 0.8){
@@ -392,7 +393,6 @@ async function cargarFotos(){
   $('#img-portada').src = urlPublica('portada.webp');
   $('#img-portada').onerror = function(){ this.removeAttribute('src'); };
   cargarHistoria();
-  cargarInvitadosFotos();
 }
 
 $('#in-portada').onchange = async e => {
@@ -430,23 +430,6 @@ $('#gal-historia').onclick = async e => {
   toast(error ? 'No se pudo borrar' : 'Foto borrada'); cargarHistoria();
 };
 
-async function cargarInvitadosFotos(){
-  const { data, error } = await sb.storage.from(INV).list('', { limit:1000, sortBy:{ column:'created_at', order:'desc' } });
-  const fotos = (data || []).filter(f => f.id);
-  $('#n-invitados').textContent = fotos.length ? `(${fotos.length})` : '';
-  if (error || !fotos.length) { $('#gal-invitados').innerHTML = '<p class="vacio" style="grid-column:1/-1">Aún no han subido fotos.</p>'; return; }
-  const { data:firmadas } = await sb.storage.from(INV).createSignedUrls(fotos.map(f => f.name), 3600);
-  $('#gal-invitados').innerHTML = (firmadas || []).map((s, i) => `
-    <div class="foto"><a href="${s.signedUrl}" target="_blank" rel="noopener"><img loading="lazy" src="${s.signedUrl}" alt=""></a>
-    <button data-inv="${esc(fotos[i].name)}" aria-label="Borrar">×</button></div>`).join('');
-}
-
-$('#gal-invitados').onclick = async e => {
-  const nombre = e.target.dataset.inv; if (!nombre) return;
-  if (!confirm('¿Borrar esta foto de invitado?')) return;
-  const { error } = await sb.storage.from(INV).remove([nombre]);
-  toast(error ? 'No se pudo borrar' : 'Foto borrada'); cargarInvitadosFotos();
-};
 
 // ---------- CONTENIDO ----------
 let contenido = [];

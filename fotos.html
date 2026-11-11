@@ -131,9 +131,25 @@ input[type=text]:focus{outline:2px solid var(--menta3);border-color:transparent;
   <a class="volver" href="./">Ver la web de la boda</a>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const sb = supabase.createClient('https://ynefjvgrjxnwvnnbulso.supabase.co', 'sb_publishable_6TiIaDxmeV9DI9E-UVdLcw_owuraxu0');
+// Buzón de Google Drive (Apps Script de la cuenta de la boda)
+const BUZON = 'https://script.google.com/macros/s/AKfycbzQOCZ2qortMQnWnsUH_vzCPF47AasEimhxf3MJ2KGR1C1GkryIJhuJj2kQFz_NhX68/exec';
+
+function aBase64(blob){
+  return new Promise((ok, mal) => {
+    const r = new FileReader();
+    r.onload = () => ok(String(r.result).split(',')[1]);
+    r.onerror = () => mal(r.error);
+    r.readAsDataURL(blob);
+  });
+}
+
+async function enviar(blob, tipo, ext, nombre){
+  const data = await aBase64(blob);
+  const res = await fetch(BUZON, { method:'POST', body: JSON.stringify({ data, tipo, ext, nombre }) });
+  const j = await res.json();
+  if (!j.ok) throw new Error(j.error || 'error');
+}
 const $ = s => document.querySelector(s);
 
 try { $('#nombre').value = localStorage.getItem('fotos_pf_nombre') || ''; } catch {}
@@ -179,9 +195,7 @@ $('#archivos').onchange = async e => {
     $('#barra').style.width = `${(i / files.length) * 100}%`;
     try {
       const { blob, ext, tipo } = await preparar(f);
-      const ruta = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}-${quien}.${ext}`;
-      const { error } = await sb.storage.from('fotos-invitados').upload(ruta, blob, { contentType:tipo, upsert:false });
-      if (error) throw error;
+      await enviar(blob, tipo || 'image/jpeg', ext, nombre);
       subidas++;
       if (subidas <= 8) {
         const m = document.createElement('img');
