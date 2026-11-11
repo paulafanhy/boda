@@ -2,6 +2,16 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.9.0',
+    fecha: '2026-11-11 15:25',
+    titulo: 'Logo definitivo',
+    cambios: [
+      'Logo con "Paula" y "Fanhy" a mano y los anillos en medio, copiado trazo a trazo del diseño original',
+      'Fecha 04/09/2027 en verde bajo el logo, igual que en el diseño',
+      'Logo nuevo en portada, pie, mensaje de gracias, página de fotos, panel e imagen de WhatsApp'
+    ]
+  },
+  {
     version: '1.8.0',
     fecha: '2026-11-11 15:10',
     titulo: 'Títulos con Amsterdam',
