@@ -2,6 +2,12 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.8.0',
+    fecha: '2026-11-11 15:10',
+    titulo: 'Títulos con Amsterdam',
+    cambios: ['Los títulos de las secciones, la página de fotos y las novedades usan la letra Amsterdam Four, más informal']
+  },
+  {
     version: '1.7.1',
     fecha: '2026-11-11 15:10',
     titulo: 'Anillos transparentes',
