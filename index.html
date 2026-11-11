@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F5EFE6">
+<title>Paula &amp; Fanny · 4 de septiembre de 2027</title>
+<meta name="description" content="¡Nos casamos! Toda la información de la boda de Paula y Fanny.">
+<meta property="og:title" content="Paula & Fanny · ¡Nos casamos!">
+<meta property="og:description" content="4 de septiembre de 2027. Confirma tu asistencia aquí.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F5EFE6' stroke='%232A8872' stroke-width='2'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Georgia' font-style='italic' font-size='24' fill='%232A8872'%3EP%26F%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --menta0:#E6FFF5;--menta1:#C3F5E5;--menta2:#A2EBD5;--menta3:#7ACDB4;--menta4:#4FA88C;--menta5:#2A8872;
+  --beige0:#F5EFE6;--beige1:#E8DCC8;--beige2:#C9B79C;
+  --texto:#2f3b37;--suave:#6b7a74;--rojo:#b5524a;
+  --serif:'Cormorant Garamond',Georgia,serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--beige0);color:var(--texto);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--menta5)}
+h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,8vw,48px);color:var(--menta5);margin:0 0 6px;text-align:center;line-height:1.1}
+.sub{font-family:var(--serif);font-style:italic;color:var(--beige2);text-align:center;font-size:20px;margin:0 0 28px}
+section{padding:72px 20px}
+.cont{max-width:720px;margin:0 auto}
+.blanco{background:#fff}
+.menta{background:var(--menta0)}
+.adorno{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 auto 18px;color:var(--beige2)}
+.adorno::before,.adorno::after{content:'';height:1px;width:48px;background:var(--beige2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:13px 26px;background:var(--menta5);color:#fff;font:500 15px Inter,sans-serif;text-decoration:none;cursor:pointer;transition:transform .15s,background .2s}
+.btn:active{transform:scale(.97)}
+.btn.sec{background:transparent;color:var(--menta5);border:1px solid var(--menta3)}
+.btn:disabled{opacity:.55}
+.centro{text-align:center}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease}
+.reveal.ver{opacity:1;transform:none}
+
+/* PORTADA */
+#portada{position:relative;min-height:100svh;display:flex;align-items:flex-end;justify-content:center;padding:0 20px 56px;overflow:hidden;background:var(--beige1)}
+#portada .foto{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.04);transition:opacity 1.2s}
+#portada .velo{position:absolute;inset:0;background:linear-gradient(180deg,rgba(245,239,230,0) 35%,rgba(245,239,230,.75) 70%,var(--beige0) 100%)}
+#portada.sinfoto{align-items:center;padding-bottom:0}
+#portada.sinfoto .velo{display:none}
+.heroin{position:relative;text-align:center}
+.mono{width:96px;height:96px;border-radius:50%;border:1.5px solid var(--menta4);box-shadow:0 0 0 6px var(--beige0),0 0 0 7px var(--beige2);display:grid;place-items:center;margin:0 auto 22px;font-family:var(--serif);font-style:italic;font-size:36px;color:var(--menta5);background:var(--beige0)}
+.mono span{color:var(--beige2);font-size:20px;margin:0 3px;position:relative;top:-7px}
+.nombres{font-family:var(--serif);font-weight:400;font-size:clamp(52px,14vw,92px);line-height:1;color:var(--menta5);margin:0}
+.nombres i{color:var(--beige2);font-size:.6em}
+.frase{font-family:var(--serif);font-style:italic;font-size:22px;margin:10px 0 6px;color:var(--texto)}
+.fechatxt{letter-spacing:4px;text-transform:uppercase;font-size:13px;color:var(--suave)}
+.bajar{display:inline-block;margin-top:26px;color:var(--menta5);font-size:13px;letter-spacing:2px;text-decoration:none;text-transform:uppercase}
+.bajar::after{content:'';display:block;width:1px;height:34px;background:var(--menta4);margin:8px auto 0;animation:baja 2s infinite}
+@keyframes baja{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* CUENTA ATRÁS */
+.cuenta{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:460px;margin:0 auto 28px}
+.cuenta div{background:#fff;border:1px solid var(--beige1);border-radius:16px;padding:14px 4px;text-align:center}
+.cuenta b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(30px,9vw,42px);color:var(--menta5);line-height:1}
+.cuenta small{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--suave)}
+.cal{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+
+/* HISTORIA */
+.texto p{margin:0 0 16px}
+.texto{font-size:17px}
+.carrusel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 20px 14px;margin:28px -20px 0;scrollbar-width:none}
+.carrusel::-webkit-scrollbar{display:none}
+.carrusel img{flex:0 0 78%;max-width:340px;aspect-ratio:4/5;object-fit:cover;border-radius:18px;scroll-snap-align:center}
+@media(min-width:720px){.carrusel img{flex-basis:300px}}
+
+/* HORARIO */
+.linea{position:relative;max-width:420px;margin:0 auto;padding-left:28px}
+.linea::before{content:'';position:absolute;left:7px;top:8px;bottom:8px;width:1px;background:var(--menta3)}
+.momento{position:relative;padding:0 0 26px}
+.momento::before{content:'';position:absolute;left:-26px;top:7px;width:13px;height:13px;border-radius:50%;background:var(--beige0);border:2px solid var(--menta4)}
+.momento b{display:block;font-family:var(--serif);font-size:26px;font-weight:500;color:var(--menta5);line-height:1.1}
+.momento span{font-size:16px}
+
+/* LUGARES */
+.lugares{display:grid;gap:18px}
+@media(min-width:720px){.lugares{grid-template-columns:1fr 1fr}}
+.tarjeta{background:#fff;border:1px solid var(--beige1);border-radius:20px;overflow:hidden}
+.tarjeta .in{padding:20px}
+.tarjeta h3{font-family:var(--serif);font-weight:500;font-size:26px;color:var(--menta5);margin:0 0 2px}
+.etq{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--beige2)}
+.tarjeta p{margin:6px 0 14px;color:var(--suave)}
+.tarjeta iframe{width:100%;height:200px;border:0;display:block;filter:saturate(.75)}
+
+/* INFO PRÁCTICA */
+.info{display:grid;gap:14px}
+.info .tarjeta .in p{color:var(--texto)}
+.icono{width:40px;height:40px;border-radius:50%;background:var(--menta1);display:grid;place-items:center;margin-bottom:10px}
+.icono svg{width:20px;height:20px;stroke:var(--menta5);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+
+/* FAQ */
+details{background:#fff;border:1px solid var(--beige1);border-radius:14px;margin-bottom:10px}
+summary{list-style:none;padding:16px 44px 16px 18px;font-weight:500;cursor:pointer;position:relative}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';position:absolute;right:18px;top:12px;font-size:22px;color:var(--menta4);transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0;padding:0 18px 16px;color:var(--suave)}
+
+/* FORMULARIO */
+form{background:#fff;border:1px solid var(--beige1);border-radius:22px;padding:24px 20px}
+label{display:block;font-size:14px;font-weight:500;margin:18px 0 7px}
+label:first-child{margin-top:0}
+.opc{font-weight:400;color:var(--suave)}
+input[type=text],input[type=tel],input[type=number],textarea{width:100%;padding:12px 14px;border:1px solid var(--beige1);border-radius:12px;background:var(--beige0);font:inherit;color:var(--texto)}
+input:focus,textarea:focus{outline:2px solid var(--menta3);border-color:transparent;background:#fff}
+textarea{min-height:80px;resize:vertical}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills input{position:absolute;opacity:0;pointer-events:none}
+.pills label{margin:0;font-weight:400;padding:10px 16px;border:1px solid var(--beige1);border-radius:999px;background:var(--beige0);cursor:pointer;font-size:15px;transition:all .15s}
+.pills input:checked + label{background:var(--menta5);border-color:var(--menta5);color:#fff}
+.pills input:focus-visible + label{outline:2px solid var(--menta3)}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check{display:flex;align-items:center;gap:10px;font-weight:400;margin:10px 0 0}
+.check input{width:20px;height:20px;accent-color:var(--menta5)}
+.bloque{border-top:1px dashed var(--beige1);margin-top:22px;padding-top:4px}
+.err{color:var(--rojo);font-size:14px;min-height:20px;margin:14px 0 0}
+.limite{text-align:center;color:var(--suave);margin:-14px 0 22px;font-size:15px}
+.gracias{text-align:center;background:#fff;border:1px solid var(--beige1);border-radius:22px;padding:34px 22px}
+.gracias .mono{width:72px;height:72px;font-size:26px}
+.gracias h3{font-family:var(--serif);font-weight:400;font-size:32px;color:var(--menta5);margin:0 0 8px}
+
+/* FOTOS + PIE */
+.camara{width:64px;height:64px;border-radius:50%;background:var(--menta1);display:grid;place-items:center;margin:0 auto 18px}
+.camara svg{width:30px;height:30px;stroke:var(--menta5);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+footer{padding:56px 20px 70px;text-align:center;background:var(--beige1)}
+footer .mono{background:var(--beige1);box-shadow:0 0 0 6px var(--beige1),0 0 0 7px var(--beige2)}
+footer p{margin:6px 0;color:var(--suave)}
+footer .texto{font-size:15px}
+
+/* MÚSICA */
+#musica{position:fixed;right:16px;bottom:16px;z-index:10;width:50px;height:50px;border-radius:50%;border:0;background:var(--menta5);color:#fff;display:grid;place-items:center;box-shadow:0 6px 18px rgba(42,136,114,.35);cursor:pointer}
+#musica svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#musica.suena{animation:latido 1.6s infinite}
+@keyframes latido{50%{box-shadow:0 0 0 10px rgba(122,205,180,.25),0 6px 18px rgba(42,136,114,.35)}}
+
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.bajar::after,#musica.suena{animation:none}}
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<header id="portada" class="sinfoto">
+  <div class="foto" id="foto-portada" style="opacity:0"></div>
+  <div class="velo"></div>
+  <div class="heroin">
+    <div class="mono">P<span>&amp;</span>F</div>
+    <h1 class="nombres" id="titulo">Paula <i>&amp;</i> Fanny</h1>
+    <p class="frase" id="frase">¡Nos casamos!</p>
+    <div class="fechatxt" id="fecha-larga">4 de septiembre de 2027</div>
+    <a href="#cuenta" class="bajar">Descubre más</a>
+  </div>
+</header>
+
+<!-- CUENTA ATRÁS -->
+<section id="cuenta">
+  <div class="cont reveal">
+    <div class="adorno">✦</div>
+    <h2>Falta muy poco</h2>
+    <p class="sub">y queremos que estés</p>
+    <div class="cuenta" id="reloj">
+      <div><b id="cd-d">–</b><small>días</small></div>
+      <div><b id="cd-h">–</b><small>horas</small></div>
+      <div><b id="cd-m">–</b><small>min</small></div>
+      <div><b id="cd-s">–</b><small>seg</small></div>
+    </div>
+    <div class="cal">
+      <a class="btn" id="cal-google" target="_blank" rel="noopener">Añadir a Google Calendar</a>
+      <button class="btn sec" id="cal-ics">Apple / Outlook</button>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORIA -->
+<section id="historia" class="blanco" hidden>
+  <div class="cont reveal">
+    <div class="adorno">✦</div>
+    <h2>Nuestra historia</h2>
+    <p class="sub">cómo empezó todo</p>
+    <div class="texto" id="historia-texto"></div>
+    <div class="carrusel" id="historia-fotos"></div>
+  </div>
+</section>
+
+<!-- HORARIO -->
+<section id="horario" hidden>
+  <div class="cont reveal">
+    <div class="adorno">✦</div>
+    <h2>El gran día</h2>
+    <p class="sub" id="dia-semana">programa</p>
+    <div class="linea" id="horario-lista"></div>
+  </div>
+</section>
+
+<!-- LUGARES -->
+<section id="lugares" class="menta" hidden>
+  <div class="cont reveal">
+    <div class="adorno">✦</div>
+    <h2>Dónde</h2>
+    <p class="sub">te esperamos aquí</p>
+    <div class="lugares" id="lugares-lista"></div>
+  </div>
+</section>
+
+<!-- INFO PRÁCTICA -->
+<section id="practica" hidden>
+  <div class="cont reveal">
+    <div class="adorno">✦</div>
+    <h2>Información práctica</h2>
+    <p class="sub">para que no te falte de nada</p>
+    <div class="info" id="info-lista"></div>
+  </div>
+</section>
+
+<!-- CONFIRMACIÓN -->
+<section id="confirmar" class="blanco">
+  <div class="cont reveal">
+    <div class="adorno">✦</div>
+    <h2>¿Vienes?</h2>
+    <p class="sub">confírmanos tu asistencia</p>
+    <p class="limite" id="limite" hidden></p>
+
+    <div class="gracias" id="gracias" hidden>
+      <div class="mono">P<span>&amp;</span>F</div>
+      <h3 id="gracias-titulo">¡Gracias!</h3>
+      <p id="gracias-texto">Hemos recibido tu respuesta.</p>
+      <button class="btn sec" id="otra">Enviar otra respuesta</button>
+    </div>
+
+    <form id="rsvp" novalidate>
+      <label for="f-nombre">Nombre y apellidos</label>
+      <input type="text" id="f-nombre" maxlength="120" autocomplete="name" required>
+
+      <label for="f-tel">Teléfono <span class="opc">(opcional)</span></label>
+      <input type="tel" id="f-tel" maxlength="30" autocomplete="tel">
+
+      <label>¿Podrás venir?</label>
+      <div class="pills">
+        <input type="radio" name="asiste" id="as-si" value="si"><label for="as-si">¡Sí, allí estaré!</label>
+        <input type="radio" name="asiste" id="as-no" value="no"><label for="as-no">No podré ir</label>
+      </div>
+
+      <div id="si-viene" hidden>
+        <div class="bloque">
+          <div class="dos">
+            <div>
+              <label for="f-acomp">Acompañantes</label>
+              <input type="number" id="f-acomp" min="0" max="10" value="0" inputmode="numeric">
+            </div>
+            <div>
+              <label for="f-ninos">De ellos, niños</label>
+              <input type="number" id="f-ninos" min="0" max="10" value="0" inputmode="numeric">
+            </div>
+          </div>
+          <div id="caja-nombres" hidden>
+            <label for="f-nombres">Nombres de tus acompañantes</label>
+            <input type="text" id="f-nombres" maxlength="400">
+          </div>
+          <label for="f-alergias">Alergias, intolerancias o menú especial <span class="opc">(de todo el grupo)</span></label>
+          <textarea id="f-alergias" maxlength="500" placeholder="Ej.: celiaquía, vegetariano, alergia al marisco…"></textarea>
+        </div>
+
+        <div class="bloque">
+          <label>¿Te quedarás a dormir?</label>
+          <div class="pills">
+            <input type="radio" name="duerme" id="du-si" value="si"><label for="du-si">Sí</label>
+            <input type="radio" name="duerme" id="du-no" value="no"><label for="du-no">No</label>
+            <input type="radio" name="duerme" id="du-nose" value="nose" checked><label for="du-nose">Aún no lo sé</label>
+          </div>
+          <label>Al día siguiente…</label>
+          <label class="check"><input type="checkbox" id="f-desayuno"> Me apunto al desayuno</label>
+          <label class="check"><input type="checkbox" id="f-comida"> Me apunto a la comida</label>
+        </div>
+
+        <div class="bloque">
+          <label for="f-cancion">Una canción que no puede faltar <span class="opc">(opcional)</span></label>
+          <input type="text" id="f-cancion" maxlength="200" placeholder="Canción y artista">
+        </div>
+      </div>
+
+      <label for="f-coment">Algo que quieras decirnos <span class="opc">(opcional)</span></label>
+      <textarea id="f-coment" maxlength="1000"></textarea>
+
+      <p class="err" id="f-err"></p>
+      <div class="centro"><button class="btn" type="submit" id="f-enviar">Enviar respuesta</button></div>
+    </form>
+  </div>
+</section>
+
+<!-- PREGUNTAS -->
+<section id="faq" hidden>
+  <div class="cont reveal">
+    <div class="adorno">✦</div>
+    <h2>Preguntas frecuentes</h2>
+    <p class="sub">por si te lo estabas preguntando</p>
+    <div id="faq-lista"></div>
+  </div>
+</section>
+
+<!-- FOTOS -->
+<section id="compartir" class="menta">
+  <div class="cont reveal centro">
+    <div class="camara"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></div>
+    <h2>Comparte tus fotos</h2>
+    <p class="sub">queremos verlo todo a través de tus ojos</p>
+    <p>Durante y después de la boda, sube aquí las fotos que hagas. Sin registrarte ni instalar nada.</p>
+    <p><a class="btn" href="fotos.html">Subir fotos</a></p>
+  </div>
+</section>
+
+<!-- PIE -->
+<footer>
+  <div class="mono">P<span>&amp;</span>F</div>
+  <div id="contacto" class="texto" hidden></div>
+  <p style="margin-top:18px;font-family:var(--serif);font-style:italic;font-size:20px;color:var(--menta5)">Con cariño, Paula &amp; Fanny</p>
+</footer>
+
+<button id="musica" aria-label="Activar música" hidden>
+  <svg viewBox="0 0 24 24" id="ico-musica"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>
+</button>
+<audio id="audio" loop preload="none"></audio>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = 'https://ynefjvgrjxnwvnnbulso.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_6TiIaDxmeV9DI9E-UVdLcw_owuraxu0';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const $ = s => document.querySelector(s);
+const esc = t => String(t ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const parrafos = t => t.split(/\n\s*\n/).map(p => `<p>${esc(p.trim()).replace(/\n/g, '<br>')}</p>`).join('');
+const urlFoto = p => sb.storage.from('fotos-web').getPublicUrl(p).data.publicUrl;
+const C = {};
+
+const ICONOS = {
+  coche:'<path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18v3H3z"/><circle cx="7.5" cy="13.5" r="1"/><circle cx="16.5" cy="13.5" r="1"/>',
+  cama:'<path d="M3 18V7"/><path d="M3 14h18v4"/><path d="M21 14v-3a3 3 0 0 0-3-3h-7v6"/><circle cx="7" cy="11" r="2"/>',
+  taza:'<path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3v3M12 3v3"/>'
+};
+
+// ---------- FECHA ----------
+function fechaBoda(){
+  const [d, h = '12:00'] = (C.fecha || '2027-09-04 12:00').trim().split(/\s+/);
+  const f = new Date(`${d}T${h.padStart(5, '0')}:00+02:00`);
+  return isNaN(f) ? new Date('2027-09-04T12:00:00+02:00') : f;
+}
+
+function reloj(){
+  const falta = fechaBoda() - Date.now();
+  if (falta <= 0) {
+    $('#reloj').outerHTML = '<p class="sub" style="font-size:26px">¡Hoy es el gran día!</p>';
+    return;
+  }
+  const s = Math.floor(falta / 1000);
+  $('#cd-d').textContent = Math.floor(s / 86400);
+  $('#cd-h').textContent = Math.floor(s % 86400 / 3600);
+  $('#cd-m').textContent = Math.floor(s % 3600 / 60);
+  $('#cd-s').textContent = s % 60;
+  setTimeout(reloj, 1000);
+}
+
+function calendario(){
+  const ini = fechaBoda(), fin = new Date(ini.getTime() + 12 * 3600e3);
+  const z = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  const titulo = 'Boda de Paula & Fanny';
+  const lugar = C.celebracion_direccion || C.ceremonia_direccion || C.celebracion_lugar || C.ceremonia_lugar || '';
+  const web = location.href.split('#')[0];
+  $('#cal-google').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+    + `&text=${encodeURIComponent(titulo)}&dates=${z(ini)}/${z(fin)}`
+    + `&location=${encodeURIComponent(lugar)}&details=${encodeURIComponent('Toda la info: ' + web)}`;
+  $('#cal-ics').onclick = () => {
+    const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Boda PF//ES','BEGIN:VEVENT',
+      `UID:boda-paula-fanny@${location.host}`, `DTSTAMP:${z(new Date())}`,
+      `DTSTART:${z(ini)}`, `DTEND:${z(fin)}`, `SUMMARY:${titulo}`,
+      `LOCATION:${lugar.replace(/[,;]/g, '\\$&')}`, `DESCRIPTION:Toda la info: ${web}`,
+      'BEGIN:VALARM','TRIGGER:-P7D','ACTION:DISPLAY','DESCRIPTION:¡La boda es en una semana!','END:VALARM',
+      'END:VEVENT','END:VCALENDAR'].join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([ics], { type:'text/calendar' }));
+    a.download = 'boda-paula-fanny.ics'; a.click();
+  };
+}
+
+// ---------- PINTAR CONTENIDO ----------
+function pintar(){
+  const f = fechaBoda();
+  const largo = f.toLocaleDateString('es-ES', { day:'numeric', month:'long', year:'numeric', timeZone:'Europe/Madrid' });
+  $('#fecha-larga').textContent = largo;
+  $('#dia-semana').textContent = f.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', timeZone:'Europe/Madrid' });
+  if (C.titulo) {
+    const [a, b] = C.titulo.split('&').map(x => x.trim());
+    $('#titulo').innerHTML = b ? `${esc(a)} <i>&amp;</i> ${esc(b)}` : esc(C.titulo);
+  }
+  if (C.frase_portada) $('#frase').textContent = C.frase_portada;
+
+  // Historia
+  if (C.historia) { $('#historia-texto').innerHTML = parrafos(C.historia); $('#historia').hidden = false; }
+
+  // Horario
+  const momentos = (C.horario || '').split('\n').map(l => l.split('|').map(x => x.trim())).filter(x => x[0]);
+  if (momentos.length) {
+    $('#horario-lista').innerHTML = momentos.map(([h, q]) =>
+      q ? `<div class="momento"><b>${esc(h)}</b><span>${esc(q)}</span></div>`
+        : `<div class="momento"><span>${esc(h)}</span></div>`).join('');
+    $('#horario').hidden = false;
+  }
+
+  // Lugares
+  const lugares = [['ceremonia','Ceremonia'], ['celebracion','Celebración']]
+    .map(([k, t]) => ({ t, nombre:C[k + '_lugar'], dir:C[k + '_direccion'], mapa:C[k + '_mapa'] }))
+    .filter(l => l.nombre || l.dir);
+  if (lugares.length) {
+    $('#lugares-lista').innerHTML = lugares.map(l => `
+      <div class="tarjeta">
+        ${l.dir ? `<iframe loading="lazy" title="Mapa ${esc(l.t)}" src="https://maps.google.com/maps?q=${encodeURIComponent(l.dir)}&output=embed"></iframe>` : ''}
+        <div class="in">
+          <div class="etq">${l.t}</div>
+          <h3>${esc(l.nombre || l.t)}</h3>
+          ${l.dir ? `<p>${esc(l.dir)}</p>` : ''}
+          <a class="btn sec" target="_blank" rel="noopener" href="${esc(l.mapa || 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(l.dir || l.nombre))}">Cómo llegar</a>
+        </div>
+      </div>`).join('');
+    $('#lugares').hidden = false;
+  }
+
+  // Info práctica
+  const info = [['aparcamiento','Aparcamiento','coche'], ['alojamiento','Quedarse a dormir','cama'], ['dia_siguiente','El día siguiente','taza']]
+    .filter(([k]) => C[k]);
+  if (info.length) {
+    $('#info-lista').innerHTML = info.map(([k, t, i]) => `
+      <div class="tarjeta"><div class="in">
+        <div class="icono"><svg viewBox="0 0 24 24">${ICONOS[i]}</svg></div>
+        <h3>${t}</h3><div class="texto">${parrafos(C[k])}</div>
+      </div></div>`).join('');
+    $('#practica').hidden = false;
+  }
+
+  // FAQ
+  const faq = (C.faq || '').split('\n').map(l => l.split('|').map(x => x.trim())).filter(x => x[0] && x[1]);
+  if (faq.length) {
+    $('#faq-lista').innerHTML = faq.map(([p, r]) => `<details><summary>${esc(p)}</summary><p>${esc(r)}</p></details>`).join('');
+    $('#faq').hidden = false;
+  }
+
+  if (C.rsvp_limite) { $('#limite').textContent = `Por favor, confírmanos antes del ${C.rsvp_limite}`; $('#limite').hidden = false; }
+  if (C.contacto) { $('#contacto').innerHTML = parrafos(C.contacto); $('#contacto').hidden = false; }
+  if (C.musica_url) { $('#audio').src = C.musica_url; $('#musica').hidden = false; }
+
+  calendario();
+  reloj();
+  observar();
+}
+
+// ---------- FOTOS ----------
+function portada(){
+  const url = urlFoto('portada.webp');
+  const img = new Image();
+  img.onload = () => {
+    $('#foto-portada').style.backgroundImage = `url("${url}")`;
+    $('#foto-portada').style.opacity = 1;
+    $('#portada').classList.remove('sinfoto');
+  };
+  img.src = url;
+}
+
+async function fotosHistoria(){
+  const { data } = await sb.storage.from('fotos-web').list('historia', { limit:100, sortBy:{ column:'name', order:'asc' } });
+  const fotos = (data || []).filter(f => f.id);
+  if (!fotos.length) return;
+  $('#historia-fotos').innerHTML = fotos.map(f => `<img loading="lazy" src="${urlFoto('historia/' + f.name)}" alt="Paula y Fanny">`).join('');
+  $('#historia').hidden = false;
+  observar();
+}
+
+// ---------- MÚSICA ----------
+const ICO_ON = '<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>';
+const ICO_OFF = $('#ico-musica').innerHTML;
+$('#musica').onclick = async () => {
+  const a = $('#audio');
+  if (a.paused) {
+    try { await a.play(); $('#musica').classList.add('suena'); $('#ico-musica').innerHTML = ICO_ON; $('#musica').setAttribute('aria-label', 'Pausar música'); } catch {}
+  } else {
+    a.pause(); $('#musica').classList.remove('suena'); $('#ico-musica').innerHTML = ICO_OFF; $('#musica').setAttribute('aria-label', 'Activar música');
+  }
+};
+
+// ---------- ANIMACIONES ----------
+let obs;
+function observar(){
+  if (!('IntersectionObserver' in window)) { document.querySelectorAll('.reveal').forEach(e => e.classList.add('ver')); return; }
+  obs = obs || new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('ver'); obs.unobserve(e.target); } }), { threshold:.12 });
+  document.querySelectorAll('.reveal:not(.ver)').forEach(e => obs.observe(e));
+}
+
+// ---------- FORMULARIO ----------
+const form = $('#rsvp');
+const num = id => Math.max(0, Math.min(10, parseInt($(id).value, 10) || 0));
+
+form.addEventListener('change', () => {
+  const si = form.asiste.value === 'si';
+  $('#si-viene').hidden = !si;
+  $('#caja-nombres').hidden = num('#f-acomp') === 0;
+});
+$('#f-acomp').addEventListener('input', () => { $('#caja-nombres').hidden = num('#f-acomp') === 0; });
+
+function yaEnviado(nombre){
+  $('#gracias-titulo').textContent = nombre ? `¡Gracias, ${nombre.split(' ')[0]}!` : '¡Gracias!';
+  form.hidden = true; $('#gracias').hidden = false;
+}
+
+$('#otra').onclick = () => {
+  form.reset(); $('#si-viene').hidden = true; $('#caja-nombres').hidden = true;
+  $('#gracias').hidden = true; form.hidden = false;
+  $('#f-nombre').focus();
+};
+
+form.onsubmit = async e => {
+  e.preventDefault();
+  const err = $('#f-err'); err.textContent = '';
+  const nombre = $('#f-nombre').value.trim();
+  const asisteVal = form.asiste.value;
+  if (nombre.length < 2) { err.textContent = 'Escribe tu nombre, por favor.'; $('#f-nombre').focus(); return; }
+  if (!asisteVal) { err.textContent = 'Dinos si podrás venir.'; return; }
+  const asiste = asisteVal === 'si';
+  const acompanantes = asiste ? num('#f-acomp') : 0;
+  const ninos = asiste ? num('#f-ninos') : 0;
+  if (ninos > acompanantes) { err.textContent = 'El número de niños no puede ser mayor que el de acompañantes.'; return; }
+
+  const fila = {
+    nombre,
+    telefono: $('#f-tel').value.trim() || null,
+    asiste,
+    acompanantes,
+    ninos,
+    nombres_acompanantes: asiste && acompanantes ? ($('#f-nombres').value.trim() || null) : null,
+    alergias: asiste ? ($('#f-alergias').value.trim() || null) : null,
+    duerme: asiste ? (form.duerme.value || 'nose') : 'no',
+    desayuno: asiste && $('#f-desayuno').checked,
+    comida: asiste && $('#f-comida').checked,
+    cancion: asiste ? ($('#f-cancion').value.trim() || null) : null,
+    comentarios: $('#f-coment').value.trim() || null
+  };
+
+  const btn = $('#f-enviar'); btn.disabled = true; btn.textContent = 'Enviando…';
+  const { error } = await sb.from('rsvp').insert(fila);
+  btn.disabled = false; btn.textContent = 'Enviar respuesta';
+  if (error) { err.textContent = 'No se ha podido enviar. Revisa tu conexión e inténtalo de nuevo.'; return; }
+
+  $('#gracias-texto').textContent = asiste
+    ? '¡Qué ilusión! Ya te tenemos apuntado. Nos vemos en la boda.'
+    : 'Te vamos a echar de menos. Gracias por avisarnos.';
+  try { localStorage.setItem('rsvp_pf', nombre); } catch {}
+  yaEnviado(nombre);
+  $('#confirmar').scrollIntoView({ behavior:'smooth' });
+};
+
+try { const n = localStorage.getItem('rsvp_pf'); if (n) { $('#gracias-texto').textContent = 'Ya nos enviaste tu respuesta desde este móvil.'; yaEnviado(n); } } catch {}
+
+// ---------- INICIO ----------
+(async () => {
+  portada();
+  fotosHistoria();
+  const { data } = await sb.from('contenido').select('clave,valor');
+  (data || []).forEach(r => C[r.clave] = (r.valor || '').trim());
+  pintar();
+})();
+</script>
+</body>
+</html>

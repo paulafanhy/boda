@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F5EFE6">
+<title>Comparte tus fotos · Paula &amp; Fanny</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F5EFE6' stroke='%232A8872' stroke-width='2'/%3E%3Ctext x='32' y='41' text-anchor='middle' font-family='Georgia' font-style='italic' font-size='24' fill='%232A8872'%3EP%26F%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--menta0:#E6FFF5;--menta1:#C3F5E5;--menta3:#7ACDB4;--menta4:#4FA88C;--menta5:#2A8872;--beige0:#F5EFE6;--beige1:#E8DCC8;--beige2:#C9B79C;--texto:#2f3b37;--suave:#6b7a74;--rojo:#b5524a;--serif:'Cormorant Garamond',Georgia,serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;min-height:100svh;font-family:Inter,system-ui,sans-serif;background:var(--beige0);color:var(--texto);line-height:1.6;display:flex;align-items:center;justify-content:center;padding:32px 20px}
+main{width:100%;max-width:420px;text-align:center}
+.mono{width:88px;height:88px;border-radius:50%;border:1.5px solid var(--menta4);box-shadow:0 0 0 6px var(--beige0),0 0 0 7px var(--beige2);display:grid;place-items:center;margin:0 auto 22px;font-family:var(--serif);font-style:italic;font-size:32px;color:var(--menta5)}
+.mono span{color:var(--beige2);font-size:18px;margin:0 3px;position:relative;top:-6px}
+h1{font-family:var(--serif);font-weight:400;font-size:42px;color:var(--menta5);margin:0;line-height:1.1}
+.sub{font-family:var(--serif);font-style:italic;color:var(--beige2);font-size:20px;margin:4px 0 22px}
+p{color:var(--suave);margin:0 0 22px}
+.caja{background:#fff;border:1px solid var(--beige1);border-radius:22px;padding:24px 20px}
+label.campo{display:block;text-align:left;font-size:14px;font-weight:500;margin-bottom:7px}
+.opc{font-weight:400;color:var(--suave)}
+input[type=text]{width:100%;padding:12px 14px;border:1px solid var(--beige1);border-radius:12px;background:var(--beige0);font:inherit;color:var(--texto);margin-bottom:18px}
+input[type=text]:focus{outline:2px solid var(--menta3);border-color:transparent;background:#fff}
+.btn{display:flex;width:100%;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:16px 22px;background:var(--menta5);color:#fff;font:500 16px Inter,sans-serif;cursor:pointer;text-decoration:none}
+.btn.sec{background:transparent;color:var(--menta5);border:1px solid var(--menta3);margin-top:12px}
+.btn svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#archivos{display:none}
+.progreso{margin-top:18px}
+.barra{height:8px;border-radius:99px;background:var(--menta0);overflow:hidden;border:1px solid var(--menta1)}
+.barra div{height:100%;width:0;background:var(--menta4);transition:width .3s}
+.estado{font-size:14px;color:var(--suave);margin:10px 0 0}
+.ok{background:var(--menta0);border:1px solid var(--menta1);border-radius:16px;padding:18px;margin-top:18px;color:var(--menta5)}
+.ok b{font-family:var(--serif);font-size:24px;font-weight:500;display:block}
+.err{color:var(--rojo);font-size:14px;margin-top:12px}
+.miniaturas{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
+.miniaturas img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px}
+.volver{display:inline-block;margin-top:26px;color:var(--menta5);font-size:14px}
+</style>
+</head>
+<body>
+<main>
+  <div class="mono">P<span>&amp;</span>F</div>
+  <h1>Comparte tus fotos</h1>
+  <p class="sub">gracias por guardar estos momentos</p>
+  <p>Elige las fotos de tu galería o haz una ahora. Puedes subir todas las que quieras, cuantas más mejor.</p>
+
+  <div class="caja">
+    <label class="campo" for="nombre">Tu nombre <span class="opc">(opcional)</span></label>
+    <input type="text" id="nombre" maxlength="40" autocomplete="name" placeholder="Para saber de quién son">
+
+    <label class="btn" for="archivos" id="btn-elegir">
+      <svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
+      Elegir fotos
+    </label>
+    <input type="file" id="archivos" accept="image/*" multiple>
+
+    <div class="progreso" id="progreso" hidden>
+      <div class="barra"><div id="barra"></div></div>
+      <p class="estado" id="estado"></p>
+      <div class="miniaturas" id="mini"></div>
+    </div>
+
+    <div class="ok" id="ok" hidden><b id="ok-titulo">¡Gracias!</b><span id="ok-texto"></span></div>
+    <p class="err" id="err" hidden></p>
+    <label class="btn sec" for="archivos" id="btn-mas" hidden>Subir más fotos</label>
+  </div>
+
+  <a class="volver" href="./">Ver la web de la boda</a>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const sb = supabase.createClient('https://ynefjvgrjxnwvnnbulso.supabase.co', 'sb_publishable_6TiIaDxmeV9DI9E-UVdLcw_owuraxu0');
+const $ = s => document.querySelector(s);
+
+try { $('#nombre').value = localStorage.getItem('fotos_pf_nombre') || ''; } catch {}
+
+function limpiar(t){
+  return t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 30).toLowerCase();
+}
+
+// Reduce las fotos muy grandes (máx. 2400 px) para que suban rápido. Si no se puede, sube el original.
+function preparar(file){
+  return new Promise(ok => {
+    if (!/^image\/(jpeg|png|webp)$/.test(file.type)) return ok({ blob:file, ext:(file.name.split('.').pop() || 'jpg').toLowerCase(), tipo:file.type || 'image/jpeg' });
+    const img = new Image();
+    img.onload = () => {
+      const max = 2400, r = Math.min(1, max / Math.max(img.width, img.height));
+      if (r === 1 && file.size < 4e6) { URL.revokeObjectURL(img.src); return ok({ blob:file, ext:file.type.split('/')[1].replace('jpeg', 'jpg'), tipo:file.type }); }
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * r); c.height = Math.round(img.height * r);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(img.src);
+      c.toBlob(b => ok(b ? { blob:b, ext:'jpg', tipo:'image/jpeg' } : { blob:file, ext:'jpg', tipo:file.type }), 'image/jpeg', .88);
+    };
+    img.onerror = () => { URL.revokeObjectURL(img.src); ok({ blob:file, ext:'jpg', tipo:file.type || 'image/jpeg' }); };
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+$('#archivos').onchange = async e => {
+  const files = [...e.target.files];
+  e.target.value = '';
+  if (!files.length) return;
+
+  const nombre = $('#nombre').value.trim();
+  try { localStorage.setItem('fotos_pf_nombre', nombre); } catch {}
+  const quien = limpiar(nombre) || 'invitado';
+
+  $('#ok').hidden = true; $('#err').hidden = true; $('#btn-mas').hidden = true;
+  $('#btn-elegir').hidden = true; $('#progreso').hidden = false; $('#mini').innerHTML = '';
+
+  let subidas = 0, fallos = 0;
+  for (const [i, f] of files.entries()) {
+    $('#estado').textContent = `Subiendo ${i + 1} de ${files.length}…`;
+    $('#barra').style.width = `${(i / files.length) * 100}%`;
+    try {
+      const { blob, ext, tipo } = await preparar(f);
+      const ruta = `${Date.now()}-${Math.random().toString(36).slice(2, 7)}-${quien}.${ext}`;
+      const { error } = await sb.storage.from('fotos-invitados').upload(ruta, blob, { contentType:tipo, upsert:false });
+      if (error) throw error;
+      subidas++;
+      if (subidas <= 8) {
+        const m = document.createElement('img');
+        m.src = URL.createObjectURL(blob); m.alt = '';
+        $('#mini').appendChild(m);
+      }
+    } catch { fallos++; }
+  }
+
+  $('#barra').style.width = '100%';
+  $('#estado').textContent = '';
+  $('#progreso').hidden = subidas === 0;
+  if (subidas) {
+    $('#ok-titulo').textContent = nombre ? `¡Gracias, ${nombre.split(' ')[0]}!` : '¡Gracias!';
+    $('#ok-texto').textContent = `${subidas} foto${subidas > 1 ? 's' : ''} subida${subidas > 1 ? 's' : ''} correctamente.`;
+    $('#ok').hidden = false;
+  }
+  if (fallos) {
+    $('#err').textContent = `${fallos} foto${fallos > 1 ? 's' : ''} no se ${fallos > 1 ? 'han' : 'ha'} podido subir. Revisa tu conexión y vuelve a intentarlo.`;
+    $('#err').hidden = false;
+  }
+  $('#btn-mas').hidden = false;
+};
+</script>
+</body>
+</html>
