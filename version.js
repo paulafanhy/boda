@@ -2,6 +2,15 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.5.2',
+    fecha: '2026-11-11 14:30',
+    titulo: 'Lugares',
+    cambios: [
+      'La tarjeta de celebración pasa a llamarse "Celebración y banquete"',
+      'Si la ceremonia es en el mismo sitio, se muestra una sola tarjeta: "Ceremonia, celebración y banquete"'
+    ]
+  },
+  {
     version: '1.5.1',
     fecha: '2026-11-11 14:15',
     titulo: 'Carrusel de fotos',

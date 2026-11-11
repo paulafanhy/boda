@@ -674,9 +674,14 @@ function pintar(){
   }
 
   // Lugares
-  const lugares = [['ceremonia','Ceremonia'], ['celebracion','Celebración']]
+  let lugares = [['ceremonia','Ceremonia'], ['celebracion','Celebración y banquete']]
     .map(([k, t]) => ({ t, nombre:C[k + '_lugar'], dir:C[k + '_direccion'], mapa:C[k + '_mapa'] }))
     .filter(l => l.nombre || l.dir);
+  // Si ceremonia y celebración son en el mismo sitio, una sola tarjeta
+  const igual = (a, b) => (a || '').trim().toLowerCase() === (b || '').trim().toLowerCase() && (a || '').trim();
+  if (lugares.length === 2 && (igual(lugares[0].dir, lugares[1].dir) || igual(lugares[0].nombre, lugares[1].nombre))) {
+    lugares = [{ ...lugares[1], t:'Ceremonia, celebración y banquete', mapa:lugares[1].mapa || lugares[0].mapa, dir:lugares[1].dir || lugares[0].dir }];
+  }
   if (lugares.length) {
     $('#lugares-lista').innerHTML = lugares.map(l => `
       <div class="tarjeta">
