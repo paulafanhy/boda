@@ -2,8 +2,19 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.4.1',
+    fecha: '2026-11-11 12:25',
+    titulo: 'Más limpio y legible',
+    cambios: [
+      'Quitada la mancha de acuarela de los títulos para que se lean mejor',
+      'Las novedades solo se ven desde el panel de administración',
+      'La versión sigue visible al pie de la web, sin enlace',
+      'Botón "Novedades" y versión en el panel'
+    ]
+  },
+  {
     version: '1.4.0',
-    fecha: '2026-11-11 12:30',
+    fecha: '2026-11-11 12:20',
     titulo: 'La web se viste de boda',
     cambios: [
       'Ramas de eucalipto decorando las esquinas de las secciones',

@@ -31,15 +31,24 @@ li::marker{color:var(--menta4)}
 .volver{display:block;text-align:center;margin-top:26px;color:var(--menta5)}
 </style>
 </head>
-<body>
+<body style="visibility:hidden">
 <main>
   <h1>Novedades</h1>
   <p class="sub">lo que ha ido cambiando en la web</p>
   <div class="linea" id="lista"></div>
-  <a class="volver" href="./">← Volver a la web</a>
+  <a class="volver" href="admin.html">← Volver al panel</a>
 </main>
 <script src="version.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+const sb = supabase.createClient('https://ynefjvgrjxnwvnnbulso.supabase.co', 'sb_publishable_6TiIaDxmeV9DI9E-UVdLcw_owuraxu0');
+(async () => {
+  const { data:{ session } } = await sb.auth.getSession();
+  const ok = session && (await sb.rpc('is_admin')).data;
+  if (!ok) { location.replace('admin.html'); return; }
+  document.body.style.visibility = 'visible';
+})();
+
 const esc = t => String(t).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 document.getElementById('lista').innerHTML = CHANGELOG.map((v, i) => `
   <article class="ver ${i === 0 ? 'actual' : ''}">

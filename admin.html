@@ -45,6 +45,8 @@ label{display:block;font-size:13px;color:var(--suave);margin:14px 0 6px}
 header{position:sticky;top:0;z-index:5;background:var(--beige0);border-bottom:1px solid var(--beige1)}
 .cab{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
 .cab h1{font-size:22px}
+.cab{flex-wrap:wrap;gap:8px}
+.cab .btn{padding:8px 12px;font-size:14px}
 .tabs{display:flex;gap:6px;padding:0 12px 10px;overflow-x:auto}
 .tabs button{flex:1;border:0;background:transparent;padding:9px 10px;border-radius:999px;color:var(--suave);font-weight:500;white-space:nowrap}
 .tabs button.activa{background:var(--menta5);color:#fff}
@@ -162,7 +164,7 @@ main{max-width:860px;margin:0 auto;padding:16px}
   <header>
     <div class="cab">
       <h1>Paula &amp; Fanhy · Admin</h1>
-      <div style="display:flex;gap:8px"><a class="btn sec" href="./" target="_blank" rel="noopener" style="text-decoration:none">Ver web</a><button class="btn sec" id="salir">Salir</button></div>
+      <div style="display:flex;gap:8px"><a class="btn sec" href="changelog.html" style="text-decoration:none">Novedades</a><a class="btn sec" href="./" target="_blank" rel="noopener" style="text-decoration:none">Ver web</a><button class="btn sec" id="salir">Salir</button></div>
     </div>
     <nav class="tabs">
       <button data-tab="invitados" class="activa">Invitados</button>
@@ -209,11 +211,13 @@ main{max-width:860px;margin:0 auto;padding:16px}
     <div id="tab-contenido" hidden>
       <form id="form-contenido"></form>
     </div>
+    <p class="ayuda" id="version" style="text-align:center;margin:26px 0 8px"></p>
   </main>
 </section>
 
 <div id="toast"></div>
 
+<script src="version.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ⚠️ PEGA AQUÍ TUS DATOS (Supabase → Project Settings → API)
@@ -470,6 +474,7 @@ $('#form-contenido').onsubmit = async e => {
   toast(`${cambios.length} cambio${cambios.length > 1 ? 's' : ''} guardado${cambios.length > 1 ? 's' : ''}`);
 };
 
+try { $('#version').innerHTML = `Web v${WEB_VERSION.version} · actualizada el ${fechaBonita(WEB_VERSION.fecha)} · <a href="changelog.html">ver novedades</a>`; } catch {}
 init();
 </script>
 </body>
