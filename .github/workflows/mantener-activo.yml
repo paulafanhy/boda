@@ -1,10 +1,15 @@
 # Hace una consulta a Supabase cada 3 días para que el proyecto gratuito no se pause por inactividad.
+# GitHub desactiva las tareas programadas si el repo pasa 60 días sin cambios,
+# así que si lleva más de 40 días sin ninguno, deja un registro vacío para mantenerlo vivo.
 name: Mantener Supabase activo
 
 on:
   schedule:
     - cron: '17 6 */3 * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   ping:
@@ -17,3 +22,18 @@ jobs:
             -H "apikey: sb_publishable_6TiIaDxmeV9DI9E-UVdLcw_owuraxu0")
           echo "Respuesta de Supabase: $code"
           test "$code" = "200"
+
+      - uses: actions/checkout@v4
+
+      - name: Mantener el repositorio activo
+        run: |
+          ultimo=$(git log -1 --format=%ct)
+          ahora=$(date +%s)
+          if [ $(( (ahora - ultimo) / 86400 )) -ge 40 ]; then
+            git config user.name "mantenimiento"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit --allow-empty -m "Mantenimiento: repo activo"
+            git push
+          else
+            echo "Repo con actividad reciente, nada que hacer"
+          fi
