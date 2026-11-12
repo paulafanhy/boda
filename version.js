@@ -2,6 +2,17 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.12.0',
+    fecha: '2026-11-12 10:30',
+    titulo: 'El tiempo',
+    cambios: [
+      'Nueva sección "El tiempo" para Bustarviejo',
+      'Hasta una semana antes: aviso y lo que suele hacer esos días según los últimos 10 años',
+      'Desde 7 días antes: previsión del día de la boda, temperatura a la hora de la ceremonia y por la noche, y consejos de qué llevar',
+      'Después de la boda la sección se oculta sola'
+    ]
+  },
+  {
     version: '1.11.2',
     fecha: '2026-11-12 07:00',
     titulo: 'Fecha de portada',

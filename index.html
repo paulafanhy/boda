@@ -203,6 +203,24 @@ h2{font-family:'Amsterdam','Pinyon Script',cursive;font-weight:400;font-size:cla
 .puntos button{width:8px;height:8px;border-radius:50%;border:0;padding:0;background:var(--beige1);cursor:pointer;transition:all .25s}
 .puntos button.on{background:var(--menta5);width:20px;border-radius:99px}
 @media(min-width:720px){.galeria-wrap{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw)}.galeria-wrap .carrusel{padding-left:max(24px,calc(50vw - 360px));padding-right:max(24px,calc(50vw - 360px))}}
+
+/* ===== El tiempo ===== */
+.tiempo{background:#fff;border:1px solid var(--beige1);border-radius:20px;padding:22px 20px;text-align:center}
+.tiempo .cab{display:flex;align-items:center;justify-content:center;gap:16px}
+.tiempo .ico{width:72px;height:72px;flex:0 0 auto}
+.tiempo .ico svg{width:100%;height:100%;stroke:var(--menta5);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.tiempo .temps{font-family:var(--serif);font-size:44px;line-height:1;color:var(--menta5);font-variant-numeric:lining-nums;font-feature-settings:'lnum'}
+.tiempo .temps small{font-size:24px;color:var(--suave)}
+.tiempo .estado{margin:4px 0 0;color:var(--suave);font-size:15px}
+.tiempo .lugar{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--beige3);margin-bottom:12px}
+.tiempo .horas{display:flex;justify-content:center;gap:10px;margin:18px 0 4px;flex-wrap:wrap}
+.tiempo .hora{background:var(--beige0);border-radius:14px;padding:10px 14px;min-width:120px}
+.tiempo .hora b{display:block;font-family:var(--serif);font-size:26px;font-weight:500;color:var(--menta5);font-variant-numeric:lining-nums;font-feature-settings:'lnum'}
+.tiempo .hora span{font-size:13px;color:var(--suave)}
+.tiempo .consejos{margin:16px 0 0;padding:0;list-style:none;text-align:left}
+.tiempo .consejos li{background:var(--menta0);border:1px solid var(--menta1);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:15px}
+.tiempo .nota{font-size:12.5px;color:var(--suave);margin:14px 0 0}
+.tiempo .aviso{font-size:16px;margin:0 0 14px}
 </style>
 </head>
 <body>
@@ -282,6 +300,15 @@ h2{font-family:'Amsterdam','Pinyon Script',cursive;font-weight:400;font-size:cla
     <h2>Información práctica</h2>
     <p class="sub">para que no te falte de nada</p>
     <div class="info" id="info-lista"></div>
+  </div>
+</section>
+
+<!-- EL TIEMPO -->
+<section id="tiempo" hidden>
+  <div class="cont reveal">
+    <h2>El tiempo</h2>
+    <p class="sub">para que sepas qué ponerte</p>
+    <div class="tiempo" id="tiempo-caja"></div>
   </div>
 </section>
 
@@ -693,6 +720,122 @@ form.onsubmit = async e => {
 
 try { const n = localStorage.getItem('rsvp_pf'); if (n) { $('#gracias-texto').textContent = 'Ya nos enviaste tu respuesta desde este móvil.'; yaEnviado(n); } } catch {}
 
+// ---------- EL TIEMPO ----------
+// Datos de Open-Meteo (gratuito, sin registro). Una semana antes muestra la previsión;
+// hasta entonces, lo que suele hacer esos días según los últimos 10 años.
+const LUGAR_DEF = { nombre:'Bustarviejo', lat:40.8566, lon:-3.7086 };
+const ICONOS_TIEMPO = {
+  sol:'<circle cx="24" cy="24" r="8"/><path d="M24 6v5M24 37v5M6 24h5M37 24h5M11.3 11.3l3.5 3.5M33.2 33.2l3.5 3.5M11.3 36.7l3.5-3.5M33.2 14.8l3.5-3.5"/>',
+  solnube:'<circle cx="18" cy="17" r="6"/><path d="M18 5v3M7 17H4M9.5 8.5l2 2M26.5 8.5l-2 2"/><path d="M16 38h19a7 7 0 0 0 0-14 9 9 0 0 0-17 3 5.5 5.5 0 0 0-2 11z"/>',
+  nube:'<path d="M13 36h22a8 8 0 0 0 0-16 10 10 0 0 0-19 3 6.5 6.5 0 0 0-3 13z"/>',
+  niebla:'<path d="M13 26h22a8 8 0 0 0 0-14 10 10 0 0 0-19 2"/><path d="M8 32h32M12 38h24"/>',
+  lluvia:'<path d="M13 30h22a8 8 0 0 0 0-16 10 10 0 0 0-19 3 6.5 6.5 0 0 0-3 13z"/><path d="M17 35l-2 5M25 35l-2 5M33 35l-2 5"/>',
+  tormenta:'<path d="M13 28h22a8 8 0 0 0 0-16 10 10 0 0 0-19 3 6.5 6.5 0 0 0-3 13z"/><path d="M25 30l-4 7h6l-4 7"/>',
+  nieve:'<path d="M13 30h22a8 8 0 0 0 0-16 10 10 0 0 0-19 3 6.5 6.5 0 0 0-3 13z"/><path d="M17 37h.01M24 40h.01M31 37h.01"/>'
+};
+function estadoTiempo(c){
+  if (c === 0) return ['sol', 'Despejado'];
+  if (c <= 2) return ['solnube', 'Poco nuboso'];
+  if (c === 3) return ['nube', 'Nublado'];
+  if (c === 45 || c === 48) return ['niebla', 'Niebla'];
+  if ((c >= 51 && c <= 67) || (c >= 80 && c <= 82)) return ['lluvia', c >= 80 ? 'Chubascos' : c <= 57 ? 'Llovizna' : 'Lluvia'];
+  if ((c >= 71 && c <= 77) || c === 85 || c === 86) return ['nieve', 'Nieve'];
+  if (c >= 95) return ['tormenta', 'Tormentas'];
+  return ['solnube', 'Variable'];
+}
+const icoTiempo = k => `<svg viewBox="0 0 48 48" aria-hidden="true">${ICONOS_TIEMPO[k]}</svg>`;
+const r0 = n => Math.round(n);
+const isoDia = d => d.toLocaleDateString('sv-SE', { timeZone:'Europe/Madrid' });
+function consejos(max, min, lluvia){
+  const c = [];
+  if (max >= 30) c.push('☀️ Hará calor: abanico, gafas de sol y mucha agua.');
+  else if (max >= 25) c.push('😎 Buen tiempo: gafas de sol y algo fresquito para el día.');
+  if (min <= 15) c.push('🧥 En la sierra refresca por la noche: llévate una chaqueta o un chal.');
+  if (lluvia >= 40) c.push('☂️ Puede llover: mejor llevar paraguas por si acaso.');
+  if (!c.length) c.push('✨ ¡Pinta un día perfecto!');
+  return c;
+}
+async function lugarTiempo(){
+  const n = (C.tiempo_lugar || '').trim();
+  if (!n || n.toLowerCase() === LUGAR_DEF.nombre.toLowerCase()) return LUGAR_DEF;
+  try {
+    const j = await (await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(n)}&count=1&language=es&countryCode=ES`)).json();
+    const r = j.results && j.results[0];
+    if (r) return { nombre:r.name, lat:r.latitude, lon:r.longitude };
+  } catch {}
+  return LUGAR_DEF;
+}
+async function tiempo(){
+  const boda = fechaBoda();
+  const dias = (boda - Date.now()) / 864e5;
+  if (dias < -1) return;                       // después de la boda: oculta
+  const L = await lugarTiempo();
+  const caja = $('#tiempo-caja');
+  const diaBoda = isoDia(boda);
+  try {
+    if (dias <= 7) {
+      // ---- PREVISIÓN ----
+      const u = `https://api.open-meteo.com/v1/forecast?latitude=${L.lat}&longitude=${L.lon}&timezone=Europe%2FMadrid`
+        + `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+        + `&hourly=temperature_2m,weather_code&start_date=${diaBoda}&end_date=${diaBoda}`;
+      const j = await (await fetch(u)).json();
+      const d = j.daily; if (!d || !d.time || !d.time.length) throw new Error('sin datos');
+      const [ico, txt] = estadoTiempo(d.weather_code[0]);
+      const max = d.temperature_2m_max[0], min = d.temperature_2m_min[0], ll = d.precipitation_probability_max[0] ?? 0;
+      const hCer = parseInt((C.fecha || '').split(' ')[1] || '12', 10) || 12;
+      const hora = h => { const i = Math.max(0, Math.min(23, h)); return { t:j.hourly.temperature_2m[i], e:estadoTiempo(j.hourly.weather_code[i])[1] }; };
+      const a = hora(hCer), b = hora(23);
+      caja.innerHTML = `
+        <div class="lugar">Previsión para ${esc(L.nombre)} · ${boda.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long', timeZone:'Europe/Madrid' })}</div>
+        <div class="cab"><div class="ico">${icoTiempo(ico)}</div>
+          <div><div class="temps">${r0(max)}° <small>/ ${r0(min)}°</small></div><p class="estado">${txt} · ${r0(ll)}% de lluvia</p></div></div>
+        <div class="horas">
+          <div class="hora"><b>${r0(a.t)}°</b><span>${String(hCer).padStart(2, '0')}:00 · ceremonia</span></div>
+          <div class="hora"><b>${r0(b.t)}°</b><span>23:00 · por la noche</span></div>
+        </div>
+        <ul class="consejos">${consejos(max, min, ll).map(x => `<li>${x}</li>`).join('')}</ul>
+        <p class="nota">Se actualiza cada vez que abres la web.</p>`;
+    } else {
+      // ---- LO NORMAL ESOS DÍAS (últimos 10 años) ----
+      const clave = `clima_${L.lat}_${L.lon}_${diaBoda.slice(5)}`;
+      let clima = null;
+      try { clima = JSON.parse(localStorage.getItem(clave) || 'null'); } catch {}
+      if (!clima) {
+        const md = diaBoda.slice(5), ahoraA = new Date().getFullYear();
+        const años = Array.from({ length:10 }, (_, i) => ahoraA - 1 - i);
+        const res = await Promise.all(años.map(async y => {
+          const c = new Date(`${y}-${md}T12:00:00Z`);
+          const ini = isoDia(new Date(c - 3 * 864e5)), fin = isoDia(new Date(+c + 3 * 864e5));
+          try {
+            const j = await (await fetch(`https://archive-api.open-meteo.com/v1/archive?latitude=${L.lat}&longitude=${L.lon}&start_date=${ini}&end_date=${fin}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=Europe%2FMadrid`)).json();
+            return j.daily || null;
+          } catch { return null; }
+        }));
+        const ok = res.filter(Boolean);
+        if (!ok.length) throw new Error('sin histórico');
+        const todo = k => ok.flatMap(d => d[k]).filter(v => v != null);
+        const media = a => a.reduce((x, y) => x + y, 0) / a.length;
+        const pr = todo('precipitation_sum');
+        clima = { max:media(todo('temperature_2m_max')), min:media(todo('temperature_2m_min')), lluvia:100 * pr.filter(v => v >= 1).length / pr.length, años:ok.length };
+        try { localStorage.setItem(clave, JSON.stringify(clima)); } catch {}
+      }
+      const lluviaTxt = clima.lluvia < 10 ? 'casi nunca llueve' : clima.lluvia < 25 ? 'llueve poco' : 'a veces llueve';
+      const mes = boda.toLocaleDateString('es-ES', { month:'long', timeZone:'Europe/Madrid' });
+      const quincena = boda.getDate() <= 10 ? 'A principios de' : boda.getDate() <= 20 ? 'A mediados de' : 'A finales de';
+      caja.innerHTML = `
+        <p class="aviso">La previsión aparecerá aquí <b>una semana antes</b> de la boda.</p>
+        <div class="lugar">Lo normal en ${esc(L.nombre)} esos días</div>
+        <div class="cab"><div class="ico">${icoTiempo(clima.lluvia < 25 ? 'solnube' : 'nube')}</div>
+          <div><div class="temps">${r0(clima.max)}° <small>/ ${r0(clima.min)}°</small></div>
+          <p class="estado">${quincena} ${mes} suele hacer unos ${r0(clima.max)}° de día y ${r0(clima.min)}° de noche, y ${lluviaTxt}.</p></div></div>
+        <ul class="consejos">${consejos(clima.max, clima.min, clima.lluvia > 35 ? 40 : 0).map(x => `<li>${x}</li>`).join('')}</ul>
+        <p class="nota">Media de los últimos ${clima.años} años.</p>`;
+    }
+    $('#tiempo').hidden = false;
+    observar();
+  } catch { /* sin conexión o sin datos: la sección se queda oculta */ }
+}
+
 // ---------- VERSIÓN ----------
 try { $('#version').textContent = `v${WEB_VERSION.version} · actualizada el ${fechaBonita(WEB_VERSION.fecha)}`; } catch {}
 
@@ -703,6 +846,7 @@ try { $('#version').textContent = `v${WEB_VERSION.version} · actualizada el ${f
   const { data } = await sb.from('contenido').select('clave,valor');
   (data || []).forEach(r => C[r.clave] = (r.valor || '').trim());
   pintar();
+  tiempo();
 })();
 </script>
 </body>
