@@ -2,6 +2,12 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.11.2',
+    fecha: '2026-11-12 07:00',
+    titulo: 'Fecha de portada',
+    cambios: ['La fecha de la portada pasa a letra Dancing Script, escrita a mano y fácil de leer']
+  },
+  {
     version: '1.11.1',
     fecha: '2026-11-11 16:00',
     titulo: 'Sin niños',
