@@ -94,7 +94,7 @@ section{padding:72px 20px}
 
 /* LUGARES */
 .lugares{display:grid;gap:18px}
-@media(min-width:720px){.lugares{grid-template-columns:1fr 1fr}}
+@media(min-width:720px){.lugares{grid-template-columns:1fr 1fr}.lugares>:only-child{grid-column:1/-1;justify-self:center;width:100%;max-width:480px}}
 .tarjeta{background:#fff;border:1px solid var(--beige1);border-radius:20px;overflow:hidden}
 .tarjeta .in{padding:20px}
 .tarjeta h3{font-family:var(--serif);font-weight:500;font-size:26px;color:var(--menta5);margin:0 0 2px}
@@ -221,6 +221,12 @@ h2{font-family:'Amsterdam','Pinyon Script',cursive;font-weight:400;font-size:cla
 .tiempo .consejos li{background:var(--menta0);border:1px solid var(--menta1);border-radius:12px;padding:10px 12px;margin-top:8px;font-size:15px}
 .tiempo .nota{font-size:12.5px;color:var(--suave);margin:14px 0 0}
 .tiempo .aviso{font-size:16px;margin:0 0 14px}
+
+/* ===== Ajustes tablet y PC ===== */
+.carrusel::before,.carrusel::after{content:'';margin:auto;flex:0 0 0}
+@media(min-width:720px){.galeria-wrap .carrusel{padding-left:24px!important;padding-right:24px!important}}
+@media(min-width:700px) and (max-width:1180px){.cont{max-width:600px}.rama{width:120px}}
+@media(min-width:1200px){.nombres{width:760px}.fechatxt{font-size:46px}.frase{font-size:26px}section{padding:96px 20px}}
 </style>
 </head>
 <body>
@@ -629,7 +635,8 @@ function carrusel(n){
   $('#gal-sig').onclick = () => { ir(actual() + 1); reiniciar(); };
   let muchas = false, timer;
   const medir = () => {
-    muchas = c.scrollWidth > c.clientWidth + 4;
+    const fotos = pasos(), ancho = fotos.reduce((n, el) => n + el.offsetWidth + 12, 0);
+    muchas = ancho > c.clientWidth - 40;
     $('#gal-ant').hidden = $('#gal-sig').hidden = $('#gal-puntos').hidden = !muchas;
   };
   const auto = () => { if (!document.hidden && muchas) ir(actual() + 1); };

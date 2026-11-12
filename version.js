@@ -2,6 +2,17 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.12.1',
+    fecha: '2026-11-12 20:40',
+    titulo: 'Mejor en tablet y ordenador',
+    cambios: [
+      'Tablet: las plantas ya no se montan encima de los textos',
+      'Ordenador: logo y fecha de portada más grandes y más aire entre secciones',
+      'Si solo hay un lugar, su tarjeta sale centrada',
+      'Las fotos de la historia se centran cuando caben todas, y las flechas solo aparecen si hay más fotos que espacio'
+    ]
+  },
+  {
     version: '1.12.0',
     fecha: '2026-11-12 10:30',
     titulo: 'El tiempo',
