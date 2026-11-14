@@ -2,6 +2,16 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.13.0',
+    fecha: '2026-11-14 16:50',
+    titulo: 'Microanimaciones',
+    cambios: [
+      'Las plantas se dibujan solas al aparecer en pantalla: primero el tallo y luego las hojas, con la mancha de color apareciendo detrás',
+      'Las fotos de vuestra historia entran una detrás de otra con un pequeño giro',
+      'Las animaciones solo ocurren la primera vez y no se muestran si el móvil tiene activado "reducir movimiento"'
+    ]
+  },
+  {
     version: '1.12.1',
     fecha: '2026-11-12 20:40',
     titulo: 'Mejor en tablet y ordenador',
