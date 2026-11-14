@@ -2,6 +2,19 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.14.0',
+    fecha: '2026-11-14 17:20',
+    titulo: 'Sistema de diseño',
+    cambios: [
+      'Tres tipografías con un papel fijo: Amsterdam para títulos, Inter para textos y Dancing Script para detalles (fecha y subtítulos)',
+      'Un solo verde en toda la web (el del logo), beige de fondo y menta de acento',
+      'Todas las tarjetas y campos con las mismas esquinas, y todos los botones con forma de píldora e idéntico aspecto',
+      'Escala fija de 6 tamaños de letra y espaciados en múltiplos de 8',
+      'Iconos de línea en lugar de emojis',
+      'La página de fotos, el panel y las novedades comparten el mismo estilo (archivo sistema.css)'
+    ]
+  },
+  {
     version: '1.13.0',
     fecha: '2026-11-14 16:50',
     titulo: 'Microanimaciones',

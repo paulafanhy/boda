@@ -1,0 +1,54 @@
+/* Sistema de diseño compartido por todas las páginas de la web de la boda */
+
+@font-face{font-family:'Amsterdam';src:url(amsterdam.woff2) format('woff2');font-display:swap}
+@font-face{font-family:'Dancing Script';font-weight:600;src:url(dancing.woff2) format('woff2');font-display:swap}
+:root{
+  color-scheme:only light;
+  /* Colores: beige (fondo) y verde (principal) + menta (acento) */
+  --verde:#09685C; --beige:#F5EFE6; --menta:#C3F5E5;
+  --menta-suave:#E6FFF5; --menta-linea:#7ACDB4; --beige-2:#E8DCC8; --beige-3:#7A6648;
+  --blanco:#fff; --texto:#2f3b37; --suave:#56645E; --rojo:#b5524a;
+  --mancha:var(--menta);
+  /* Tipografías: títulos · textos · detalles */
+  --f-titulo:'Amsterdam',cursive; --f-texto:Inter,system-ui,sans-serif; --f-detalle:'Dancing Script',cursive;
+  /* Escala de texto */
+  --t-xs:13px; --t-s:15px; --t-m:17px; --t-l:22px; --t-xl:30px;
+  --t-titulo:clamp(38px,10vw,54px); --t-hero:clamp(30px,9vw,44px);
+  /* Espaciado (múltiplos de 8) */
+  --e1:8px; --e2:16px; --e3:24px; --e4:32px; --e5:48px; --e6:72px;
+  /* Radios: cajas y píldoras */
+  --r-caja:16px; --r-pill:999px;
+  --borde:1px solid var(--beige-2);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--f-texto);font-size:var(--t-m);line-height:1.6;background:var(--beige);color:var(--texto);-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--verde)}
+p{margin:0 0 var(--e2)}
+
+/* ---------- Tipografía ---------- */
+.sub{font-family:var(--f-detalle);font-weight:600;font-size:var(--t-l);color:var(--beige-3);text-align:center;margin:0 0 var(--e4)}
+.texto{font-size:var(--t-m)}
+.etq{font-size:var(--t-xs);letter-spacing:.15em;text-transform:uppercase;color:var(--beige-3)}
+
+/* ---------- Componentes base ---------- */
+.caja,.tarjeta,.tiempo,form,.gracias,details,.cuenta div{background:var(--blanco);border:var(--borde);border-radius:var(--r-caja)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--e1);min-height:48px;padding:0 var(--e3);border:1px solid var(--verde);border-radius:var(--r-pill);background:var(--verde);color:var(--blanco);font:500 var(--t-s)/1.2 var(--f-texto);text-decoration:none;cursor:pointer;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn.sec{background:transparent;color:var(--verde);border-color:var(--menta-linea)}
+.btn:disabled{opacity:.55}
+.insignia{width:40px;height:40px;border-radius:50%;background:var(--menta);display:grid;place-items:center;flex:0 0 auto}
+.insignia svg,.icono svg,.momento .ico svg,.camara svg,.tiempo .ico svg,.consejos svg{fill:none;stroke:var(--verde);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+/* ---------- Formularios ---------- */
+label{display:block;font-size:var(--t-s);font-weight:500;margin:var(--e3) 0 var(--e1)}
+label:first-child{margin-top:0}
+.opc{font-weight:400;color:var(--suave)}
+input[type=text],input[type=tel],input[type=number],input[type=email],input[type=password],input[type=search],textarea{width:100%;padding:var(--e1) var(--e2);min-height:48px;border:var(--borde);border-radius:var(--r-caja);background:var(--beige);font:inherit;color:var(--texto)}
+input:focus,textarea:focus{outline:2px solid var(--menta-linea);border-color:transparent;background:var(--blanco)}
+textarea{min-height:96px;resize:vertical}
+button{font:inherit}
+.btn.peligro{background:transparent;color:var(--rojo);border-color:var(--beige-2)}
+/* Compatibilidad con nombres antiguos */
+:root{--menta5:var(--verde);--menta4:var(--verde);--menta3:var(--menta-linea);--menta1:var(--menta);--menta0:var(--menta-suave);--beige0:var(--beige);--beige1:var(--beige-2);--beige2:#C9B79C;--beige3:#7A6648}
