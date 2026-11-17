@@ -2,6 +2,12 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.15.5',
+    fecha: '2026-11-17 18:25',
+    titulo: 'Correo para retirar fotos',
+    cambios: ['El aviso de fotos permite pedir que se retire una foto avisando a Paula o a Fanhy o escribiendo a bodapaulayfanhy@gmail.com']
+  },
+  {
     version: '1.15.4',
     fecha: '2026-11-17 18:20',
     titulo: 'Aviso de fotos más formal',
