@@ -2,6 +2,12 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.16.1',
+    fecha: '2026-11-17 19:35',
+    titulo: 'Panel más legible',
+    cambios: ['El panel de administración y las novedades usan letra normal (Inter) en los títulos en lugar de letra artística, para leerlo todo de un vistazo']
+  },
+  {
     version: '1.16.0',
     fecha: '2026-11-17 18:45',
     titulo: 'Modo boda',
