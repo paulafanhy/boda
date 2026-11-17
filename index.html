@@ -993,6 +993,25 @@ try { $('#version').textContent = `v${WEB_VERSION.version} · actualizada el ${f
   pintar();
   tiempo();
 })();
+
+// Llegada desde "Ver las fotos de todos" (fotos.html): colocar las fotos a la vista
+// y recolocar mientras carga el resto de la página (fotos, textos…), salvo que la persona ya haya movido la página.
+(() => {
+  if (!/^#(fotos-invitados|compartir)$/.test(location.hash)) return;
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  let tocado = false;
+  ['touchstart', 'wheel', 'keydown'].forEach(ev => addEventListener(ev, () => { tocado = true; }, { once:true, passive:true }));
+  const colocar = () => {
+    if (tocado) return;
+    const bloque = $('#inv-bloque');
+    const destino = bloque.hidden ? $('#compartir') : bloque;
+    const y = destino.getBoundingClientRect().top + scrollY - (bloque.hidden ? 0 : 16);
+    window.scrollTo({ top: y, behavior: 'instant' });
+  };
+  colocar();
+  [300, 800, 1500, 2500, 4000, 6000].forEach(t => setTimeout(colocar, t));
+  addEventListener('load', colocar);
+})();
 </script>
 </body>
 </html>

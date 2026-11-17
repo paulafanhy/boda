@@ -2,6 +2,12 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.15.6',
+    fecha: '2026-11-17 18:35',
+    titulo: '"Ver las fotos de todos" lleva directo a las fotos',
+    cambios: ['El enlace de la página de subir fotos lleva directamente al carrusel de fotos de los invitados y se mantiene ahí aunque la web siga cargando']
+  },
+  {
     version: '1.15.5',
     fecha: '2026-11-17 18:25',
     titulo: 'Correo para retirar fotos',
