@@ -33,6 +33,14 @@ input[type=text]{margin-bottom:var(--e3)}
 .err{color:var(--rojo);font-size:var(--t-s);margin-top:var(--e2)}
 .miniaturas{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--e1);margin-top:var(--e2)}
 .miniaturas img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--e1)}
+.aviso{display:flex;gap:var(--e1);text-align:left;background:var(--menta-suave);border:1px solid var(--menta-linea);border-radius:var(--r-caja);padding:var(--e2);margin:0 0 var(--e2);font-size:var(--t-s);line-height:1.5}
+.aviso svg{flex:none;width:22px;height:22px;margin-top:1px;fill:none;stroke:var(--verde);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.aviso b{color:var(--verde)}
+.acepto{display:flex;gap:var(--e1);align-items:flex-start;text-align:left;font-size:var(--t-s);margin:0 0 var(--e3);cursor:pointer;line-height:1.45}
+.acepto input{flex:none;width:22px;height:22px;margin:0;accent-color:var(--verde);cursor:pointer}
+.acepto.falta{color:var(--rojo)}
+.acepto.falta input{outline:2px solid var(--rojo);outline-offset:2px}
+.btn.apagado{opacity:.45}
 .volver{display:inline-block;margin-top:var(--e3);font-size:var(--t-s)}
 .mono2{margin:0 auto var(--e2);display:block}.mono2 svg{width:100%;height:auto;display:block}
 </style>
@@ -47,6 +55,12 @@ input[type=text]{margin-bottom:var(--e3)}
   <div class="caja">
     <label class="campo" for="nombre">Tu nombre <span class="opc">(opcional)</span></label>
     <input type="text" id="nombre" maxlength="40" autocomplete="name" placeholder="Para saber de quién son">
+
+    <div class="aviso" role="note">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+      <span><b>Las fotos que subas serán públicas.</b> Aparecerán en la web de la boda y en una carpeta de Google Drive que puede ver cualquier persona con el enlace, junto con tu nombre si lo escribes. Sube solo fotos en las que la gente salga a gusto.</span>
+    </div>
+    <label class="acepto" id="acepto-lbl"><input type="checkbox" id="acepto"> Entiendo que cualquiera podrá ver las fotos que suba</label>
 
     <label class="btn" for="archivos" id="btn-elegir">
       <svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>
@@ -91,6 +105,24 @@ const $ = s => document.querySelector(s);
 
 try { $('#nombre').value = localStorage.getItem('fotos_pf_nombre') || ''; } catch {}
 
+// hay que marcar el aviso antes de elegir fotos (se recuerda en este móvil)
+try { $('#acepto').checked = localStorage.getItem('fotos_pf_acepto') === '1'; } catch {}
+function pintarAcepto(){
+  const ok = $('#acepto').checked;
+  $('#btn-elegir').classList.toggle('apagado', !ok);
+  $('#btn-elegir').setAttribute('aria-disabled', String(!ok));
+  if (ok) $('#acepto-lbl').classList.remove('falta');
+  try { localStorage.setItem('fotos_pf_acepto', ok ? '1' : '0'); } catch {}
+}
+$('#acepto').onchange = pintarAcepto; pintarAcepto();
+['#btn-elegir', '#btn-mas'].forEach(b => $(b).addEventListener('click', e => {
+  if ($('#acepto').checked) return;
+  e.preventDefault();
+  $('#acepto-lbl').classList.add('falta');
+  $('#acepto-lbl').scrollIntoView({ block:'center', behavior:'smooth' });
+  $('#acepto').focus({ preventScroll:true });
+}));
+
 function limpiar(t){
   return t.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 30).toLowerCase();
 }
@@ -117,7 +149,7 @@ function preparar(file){
 $('#archivos').onchange = async e => {
   const files = [...e.target.files];
   e.target.value = '';
-  if (!files.length) return;
+  if (!files.length || !$('#acepto').checked) return;
 
   const nombre = $('#nombre').value.trim();
   try { localStorage.setItem('fotos_pf_nombre', nombre); } catch {}

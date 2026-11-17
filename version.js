@@ -2,6 +2,16 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.15.3',
+    fecha: '2026-11-17 18:15',
+    titulo: 'Aviso de fotos públicas',
+    cambios: [
+      'La página de subir fotos avisa de que las fotos serán públicas: se verán en la web y en la carpeta de Drive, junto con el nombre si se escribe',
+      'Hay que marcar "Entiendo que cualquiera podrá ver las fotos que suba" antes de poder elegir fotos (el móvil lo recuerda para la próxima vez)',
+      'La sección "Comparte tus fotos" de la web también lo avisa'
+    ]
+  },
+  {
     version: '1.15.2',
     fecha: '2026-11-17 17:50',
     titulo: 'Ver fotos en grande',
