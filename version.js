@@ -2,6 +2,16 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.15.4',
+    fecha: '2026-11-17 18:20',
+    titulo: 'Aviso de fotos más formal',
+    cambios: [
+      'Texto del aviso de fotos públicas más formal',
+      'El aviso indica que, si alguien no está a gusto con una foto, puede decírselo a Paula o a Fanhy y se retirará lo antes posible',
+      'Nueva frase en la casilla: "He leído el aviso y acepto que las fotos que comparta sean visibles públicamente"'
+    ]
+  },
+  {
     version: '1.15.3',
     fecha: '2026-11-17 18:15',
     titulo: 'Aviso de fotos públicas',
