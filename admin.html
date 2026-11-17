@@ -65,6 +65,13 @@ main{max-width:860px;margin:0 auto;padding:var(--e2)}
 .guardar-fijo{position:sticky;bottom:var(--e2);text-align:right}
 .guardar-fijo .btn{box-shadow:0 4px 14px rgba(9,104,92,.3)}
 .mono2{margin:0 auto var(--e2);display:block}.mono2 svg{width:100%;height:auto;display:block}
+.modo{display:flex;align-items:center;justify-content:space-between;gap:var(--e2);flex-wrap:wrap}
+.modo-estado{display:inline-flex;align-items:center;gap:var(--e1);font-weight:500}
+.modo-estado::before{content:'';width:12px;height:12px;border-radius:50%;background:var(--beige-3)}
+.modo-estado.on{color:var(--verde)}
+.modo-estado.on::before{background:var(--verde);box-shadow:0 0 0 4px var(--menta)}
+.modo-botones{display:flex;gap:var(--e1);flex-wrap:wrap;margin-top:var(--e2)}
+.modo-botones .btn{text-decoration:none}
 </style>
 </head>
 <body>
@@ -135,6 +142,14 @@ main{max-width:860px;margin:0 auto;padding:var(--e2)}
 
     <!-- CONTENIDO -->
     <div id="tab-contenido" hidden>
+      <div class="tarjeta" id="tarjeta-modo">
+        <div class="modo"><h2 style="margin:0">Modo boda</h2><span class="modo-estado" id="modo-estado">Cargando…</span></div>
+        <p class="ayuda" style="margin-top:var(--e1)">Para el día de la boda. Las fotos de los invitados pasan justo debajo de la portada en forma de mosaico, aparece un botón flotante "Subir foto", la portada dice "¡Hoy nos casamos!" y se ocultan la cuenta atrás y el formulario de confirmación. No se activa solo: lo encendéis y apagáis vosotras.</p>
+        <div class="modo-botones">
+          <button class="btn" id="modo-cambiar" type="button" disabled>Activar modo boda</button>
+          <a class="btn sec" href="./?modo=boda" target="_blank" rel="noopener">Vista previa (solo tú)</a>
+        </div>
+      </div>
       <form id="form-contenido"></form>
     </div>
     <p class="ayuda" id="version" style="text-align:center;margin:26px 0 8px"></p>
@@ -199,7 +214,7 @@ function abrirTab(tab){
   ['invitados','fotos','contenido'].forEach(t => $('#tab-' + t).hidden = t !== tab);
   if (tab === 'invitados') cargarInvitados();
   if (tab === 'fotos' && !cargado.fotos) { cargado.fotos = true; cargarFotos(); }
-  if (tab === 'contenido' && !cargado.contenido) { cargado.contenido = true; cargarContenido(); }
+  if (tab === 'contenido' && !cargado.contenido) { cargado.contenido = true; cargarContenido(); cargarModo(); }
   window.scrollTo(0, 0);
 }
 
@@ -384,8 +399,8 @@ let contenido = [];
 async function cargarContenido(){
   const { data, error } = await sb.from('contenido').select('*').order('orden');
   if (error) { toast('Error cargando contenido'); return; }
-  contenido = data;
-  $('#form-contenido').innerHTML = '<div class="tarjeta">' + data.map(c => `
+  contenido = data.filter(c => c.clave !== 'modo_boda');
+  $('#form-contenido').innerHTML = '<div class="tarjeta">' + contenido.map(c => `
     <label for="c-${c.clave}">${esc(c.etiqueta)}</label>
     ${c.tipo === 'largo'
       ? `<textarea id="c-${c.clave}" data-clave="${c.clave}">${esc(c.valor)}</textarea>`
@@ -405,6 +420,30 @@ $('#form-contenido').onsubmit = async e => {
   toast(`${cambios.length} cambio${cambios.length > 1 ? 's' : ''} guardado${cambios.length > 1 ? 's' : ''}`);
 };
 
+
+// ---------- MODO BODA ----------
+let modoOn = false;
+function pintarModo(){
+  $('#modo-estado').textContent = modoOn ? 'Activado' : 'Desactivado';
+  $('#modo-estado').classList.toggle('on', modoOn);
+  $('#modo-cambiar').textContent = modoOn ? 'Desactivar modo boda' : 'Activar modo boda';
+  $('#modo-cambiar').classList.toggle('sec', modoOn);
+  $('#modo-cambiar').disabled = false;
+}
+async function cargarModo(){
+  const { data } = await sb.from('contenido').select('valor').eq('clave', 'modo_boda').maybeSingle();
+  modoOn = !!data && data.valor === '1';
+  pintarModo();
+}
+$('#modo-cambiar').onclick = async () => {
+  const nuevo = !modoOn;
+  if (nuevo && !confirm('¿Activar el modo boda? Todos los invitados verán la web en modo boda.')) return;
+  $('#modo-cambiar').disabled = true;
+  const { error } = await sb.from('contenido').upsert({ clave:'modo_boda', valor: nuevo ? '1' : '0', etiqueta:'Modo boda', orden:999 });
+  if (error) { toast('No se ha podido guardar'); console.error(error); $('#modo-cambiar').disabled = false; return; }
+  modoOn = nuevo; pintarModo();
+  toast(modoOn ? 'Modo boda activado' : 'Modo boda desactivado');
+};
 try { $('#version').innerHTML = `Web v${WEB_VERSION.version} · actualizada el ${fechaBonita(WEB_VERSION.fecha)} · <a href="changelog.html">ver novedades</a>`; } catch {}
 // Enlace real a la carpeta de Drive de las fotos de invitados
 fetch('https://script.google.com/macros/s/AKfycbzQOCZ2qortMQnWnsUH_vzCPF47AasEimhxf3MJ2KGR1C1GkryIJhuJj2kQFz_NhX68/exec?lista=1').then(r => r.json()).then(j => { if (j && j.carpeta) $('#btn-drive').href = j.carpeta; }).catch(() => {});

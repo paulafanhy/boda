@@ -204,6 +204,25 @@ footer .texto{font-size:var(--t-s)}
 .visor .v-sig{right:var(--e1);top:50%;transform:translateY(-50%)}
 .visor .v-cuenta{position:absolute;top:var(--e2);left:0;right:0;text-align:center;font-size:var(--t-xs);color:rgba(245,239,230,.75);pointer-events:none}
 @media (max-width:600px){.visor .v-ant,.visor .v-sig{top:auto;bottom:var(--e2);transform:none}}
+/* ---------- MODO BODA (se activa desde el panel) ---------- */
+.modo-boda #cuenta,.modo-boda #confirmar{display:none!important}
+.modo-boda #compartir{padding-top:var(--e5)}
+.modo-boda #compartir .btn:not(.sec){font-size:var(--t-m);padding-inline:var(--e4)}
+.modo-boda .inv-wrap{margin:0}
+.modo-boda .inv-wrap .carrusel{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--e3) var(--e2);overflow:visible;scroll-snap-type:none;padding:var(--e3) 0 var(--e2);max-width:1100px;margin-inline:auto}
+.modo-boda .inv-wrap .carrusel::before,.modo-boda .inv-wrap .carrusel::after{display:none}
+.modo-boda .inv-wrap .pola{max-width:none;width:auto;padding:6px 6px 34px}
+.modo-boda .inv-wrap .pola::before{width:48px;height:16px;top:-8px}
+.modo-boda .inv-wrap .pie-foto{font-size:var(--t-s);bottom:6px;padding:0 var(--e1)}
+.modo-boda .inv-wrap .flecha{display:none!important}
+@media (min-width:700px){.modo-boda .inv-wrap .carrusel{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:1000px){.modo-boda .inv-wrap .carrusel{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.inv-mas{margin-top:var(--e2)}
+.btn-flota{position:fixed;left:50%;bottom:calc(var(--e2) + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:50;display:none;align-items:center;gap:var(--e1);box-shadow:0 6px 20px rgba(9,104,92,.35);white-space:nowrap;transition:opacity .25s,transform .25s}
+.btn-flota svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.modo-boda .btn-flota{display:inline-flex}
+.btn-flota.fuera{opacity:0;pointer-events:none;transform:translate(-50%,16px)}
+.modo-boda footer{padding-bottom:calc(var(--e6) + 48px)}
 </style>
 <script>if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('anim')</script>
 </head>
@@ -384,7 +403,7 @@ footer .texto{font-size:var(--t-s)}
     <h2>Comparte tus fotos</h2>
     <p class="sub">queremos verlo todo a través de tus ojos</p>
     <p>Durante y después de la boda, sube aquí las fotos que hagas. Sin registrarte ni instalar nada. Las fotos compartidas son visibles para cualquier persona que acceda a la web; si alguna no te parece adecuada, avisa a Paula o a Fanhy, o escribe a <a href="mailto:bodapaulayfanhy@gmail.com?subject=Retirar%20una%20foto">bodapaulayfanhy<wbr>@gmail.com</a>, y la retiraremos lo antes posible.</p>
-    <p><a class="btn" href="fotos.html">Subir fotos</a></p>
+    <p><a class="btn" id="btn-subir" href="fotos.html">Subir fotos</a></p>
     <div id="inv-bloque" hidden>
       <p class="inv-cuenta" id="inv-cuenta"></p>
       <div class="galeria-wrap inv-wrap">
@@ -392,10 +411,12 @@ footer .texto{font-size:var(--t-s)}
         <div class="carrusel" id="inv-fotos" aria-live="polite"></div>
         <button class="flecha der" id="inv-sig" aria-label="Fotos anteriores">›</button>
       </div>
+      <p class="inv-mas" id="inv-mas-p" hidden><button class="btn sec" id="inv-mas" type="button">Ver más fotos</button></p>
       <p><a class="btn sec" id="inv-drive" href="#" target="_blank" rel="noopener">Ver todas en Google Drive</a></p>
     </div>
   </div>
 </section>
+<a class="btn btn-flota fuera" id="btn-flota" href="fotos.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h2l1.5-2h6L16.5 6h2A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.5"/></svg>Subir foto</a>
 <div class="visor" id="visor" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
   <span class="v-cuenta" id="v-cuenta"></span>
   <button class="v-cerrar" id="v-cerrar" aria-label="Cerrar">×</button>
@@ -747,6 +768,8 @@ async function fotosInvitados(){
     $('#inv-cuenta').textContent = j.total === 1 ? '1 foto compartida' : `${j.total} fotos compartidas`;
     $('#inv-bloque').hidden = !j.total;
     if (nuevas.length && !primeraVez && alInicio) caja.scrollTo({ left:0 });
+    if (modoBoda() && nuevas.length && !primeraVez) invMostrar += nuevas.length;   // que las nuevas no echen fuera a las que ya se veían
+    pintarMosaico();
     const sobra = caja.scrollWidth > caja.clientWidth + 8;
     $('#inv-ant').hidden = $('#inv-sig').hidden = !sobra;
   } catch { /* sin conexión: se mantiene lo que ya se ve */ }
@@ -759,7 +782,7 @@ async function fotosInvitados(){
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(es => es.forEach(e => { invEnPantalla = e.isIntersecting; if (invEnPantalla) fotosInvitados(); }), { threshold:0 }).observe($('#compartir'));
   } else invEnPantalla = true;
-  setInterval(() => { if (invEnPantalla && !document.hidden) fotosInvitados(); }, 90000);
+  setInterval(() => { if (invEnPantalla && !document.hidden) fotosInvitados(); }, 60000);
   fotosInvitados();
 })();
 
@@ -984,6 +1007,39 @@ async function tiempo(){
 // ---------- VERSIÓN ----------
 try { $('#version').textContent = `v${WEB_VERSION.version} · actualizada el ${fechaBonita(WEB_VERSION.fecha)}`; } catch {}
 
+
+// ---------- MODO BODA ----------
+// Se enciende y apaga desde el panel (Contenido → Modo boda). Vista previa: ?modo=boda / ?modo=normal
+const INV_PASO = 12;   // en el mosaico se enseñan de 12 en 12
+let invMostrar = INV_PASO;
+const modoBoda = () => document.documentElement.classList.contains('modo-boda');
+function aplicarModoBoda(){
+  const q = new URLSearchParams(location.search).get('modo');
+  const on = q === 'boda' ? true : q === 'normal' ? false : C.modo_boda === '1';
+  document.documentElement.classList.toggle('modo-boda', on);
+  if (!on) return;
+  $('#frase').textContent = '¡Hoy nos casamos!';
+  const bajar = document.querySelector('#portada .bajar'); if (bajar) { bajar.href = '#compartir'; bajar.textContent = 'Ver las fotos'; }
+  // fotos justo debajo de la portada; lo útil del día después; el resto al final
+  let ant = $('#portada');
+  ['compartir', 'horario', 'lugares', 'tiempo', 'practica', 'historia', 'faq'].forEach(id => {
+    const sec = document.getElementById(id); if (!sec) return;
+    ant.after(sec); ant = sec;
+  });
+  // botón flotante: se esconde cuando ya se ve el botón "Subir fotos" de la sección
+  const flota = $('#btn-flota');
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => es.forEach(e => flota.classList.toggle('fuera', e.isIntersecting)), { threshold:0 }).observe($('#btn-subir'));
+  } else flota.classList.remove('fuera');
+  pintarMosaico();
+}
+function pintarMosaico(){
+  const fotos = [...$('#inv-fotos').children];
+  if (!modoBoda()) { fotos.forEach(p => p.hidden = false); $('#inv-mas-p').hidden = true; return; }
+  fotos.forEach((p, i) => p.hidden = i >= invMostrar);
+  $('#inv-mas-p').hidden = fotos.length <= invMostrar;
+}
+$('#inv-mas').onclick = () => { invMostrar += INV_PASO; pintarMosaico(); };
 // ---------- INICIO ----------
 (async () => {
   portada();
@@ -991,6 +1047,7 @@ try { $('#version').textContent = `v${WEB_VERSION.version} · actualizada el ${f
   const { data } = await sb.from('contenido').select('clave,valor');
   (data || []).forEach(r => C[r.clave] = (r.valor || '').trim());
   pintar();
+  aplicarModoBoda();
   tiempo();
 })();
 

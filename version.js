@@ -2,6 +2,19 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.16.0',
+    fecha: '2026-11-17 18:45',
+    titulo: 'Modo boda',
+    cambios: [
+      'Nuevo interruptor en el panel (Contenido → Modo boda) para encenderlo y apagarlo a mano; no se activa solo',
+      'Con el modo boda, "Comparte tus fotos" pasa justo debajo de la portada y la portada dice "¡Hoy nos casamos!"',
+      'Las fotos de los invitados se ven en mosaico (2 columnas en el móvil, más en pantallas grandes), de 12 en 12 con el botón "Ver más fotos"',
+      'Botón flotante "Subir foto" siempre a mano',
+      'Se ocultan la cuenta atrás y el formulario de confirmación; detrás de las fotos van horario, lugares y el tiempo',
+      'Vista previa desde el panel para verlo sin que lo vean los invitados'
+    ]
+  },
+  {
     version: '1.15.6',
     fecha: '2026-11-17 18:35',
     titulo: '"Ver las fotos de todos" lleva directo a las fotos',
