@@ -2,6 +2,15 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.15.1',
+    fecha: '2026-11-17 12:35',
+    titulo: 'Borrar fotos de invitados',
+    cambios: [
+      'Si se borra una foto de la carpeta de Drive, desaparece también del carrusel de la web, incluso para quien ya tiene la página abierta',
+      'Las fotos que están en la papelera de Drive ya no salen en la web'
+    ]
+  },
+  {
     version: '1.15.0',
     fecha: '2026-11-17 10:00',
     titulo: 'Fotos de los invitados en directo',

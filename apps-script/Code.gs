@@ -73,7 +73,7 @@ function lista_() {
   const fotos = [];
   while (it.hasNext()) {
     const f = it.next();
-    if (!/^image\//.test(f.getMimeType())) continue;
+    if (f.isTrashed() || !/^image\//.test(f.getMimeType())) continue;   // las fotos en la papelera no salen
     fotos.push({ id: f.getId(), n: f.getName(), t: f.getDateCreated().getTime() });
   }
   fotos.sort((a, b) => b.t - a.t);

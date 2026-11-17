@@ -638,6 +638,7 @@ function piePolaroid(nombre){
 function polaroidInvitado(f, i, nueva){
   const a = document.createElement('a');
   a.className = 'pola inv' + (nueva ? ' nueva' : '');
+  a.dataset.id = f.id;
   a.href = `https://drive.google.com/file/d/${encodeURIComponent(f.id)}/view`;
   a.target = '_blank'; a.rel = 'noopener';
   a.style.setProperty('--r', girosInv[i % girosInv.length] + 'deg');
@@ -664,6 +665,9 @@ async function fotosInvitados(){
       fotosVistas.add(f.id);
       caja.prepend(polaroidInvitado(f, fotosVistas.size, !primeraVez));
     });
+    // las que se han borrado de Drive desaparecen también de la web
+    const enDrive = new Set((j.fotos || []).map(f => f.id));
+    [...caja.children].forEach(p => { if (!enDrive.has(p.dataset.id)) { fotosVistas.delete(p.dataset.id); p.remove(); } });
     while (caja.children.length > 60) caja.lastElementChild.remove();
     $('#inv-cuenta').textContent = j.total === 1 ? '1 foto compartida' : `${j.total} fotos compartidas`;
     $('#inv-bloque').hidden = !j.total;
