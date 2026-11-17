@@ -192,6 +192,18 @@ footer .texto{font-size:var(--t-s)}
   html.anim #galeria-wrap .pola{opacity:0;transform:translateY(24px) rotate(calc(var(--r,-2deg) + 8deg))}
   html.anim #galeria-wrap.entra .pola{opacity:1;transform:rotate(var(--r,-2deg));transition:opacity .7s ease calc(var(--k,0) * 130ms),transform 1s cubic-bezier(.2,.9,.25,1.15) calc(var(--k,0) * 130ms)}
 }
+.visor{position:fixed;inset:0;z-index:100;background:rgba(20,28,26,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px var(--e1) var(--e2);touch-action:pan-y}
+.visor[hidden]{display:none}
+.visor img{max-width:100%;max-height:calc(100% - 48px);object-fit:contain;border-radius:4px;box-shadow:0 8px 32px rgba(0,0,0,.4);transition:opacity .2s}
+.visor img.cargando{opacity:.25}
+.visor .v-pie{font-family:var(--f-detalle);font-weight:600;font-size:var(--t-l);color:var(--beige);margin-top:var(--e2);text-align:center;min-height:1.4em}
+.visor button{position:absolute;background:rgba(245,239,230,.14);color:var(--beige);border:0;border-radius:50%;width:48px;height:48px;font-size:28px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.visor button:hover{background:rgba(245,239,230,.26)}
+.visor .v-cerrar{top:var(--e1);right:var(--e1)}
+.visor .v-ant{left:var(--e1);top:50%;transform:translateY(-50%)}
+.visor .v-sig{right:var(--e1);top:50%;transform:translateY(-50%)}
+.visor .v-cuenta{position:absolute;top:var(--e2);left:0;right:0;text-align:center;font-size:var(--t-xs);color:rgba(245,239,230,.75);pointer-events:none}
+@media (max-width:600px){.visor .v-ant,.visor .v-sig{top:auto;bottom:var(--e2);transform:none}}
 </style>
 <script>if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('anim')</script>
 </head>
@@ -384,6 +396,14 @@ footer .texto{font-size:var(--t-s)}
     </div>
   </div>
 </section>
+<div class="visor" id="visor" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <span class="v-cuenta" id="v-cuenta"></span>
+  <button class="v-cerrar" id="v-cerrar" aria-label="Cerrar">×</button>
+  <button class="v-ant" id="v-ant" aria-label="Foto anterior">‹</button>
+  <img id="v-img" alt="Foto de un invitado">
+  <p class="v-pie" id="v-pie"></p>
+  <button class="v-sig" id="v-sig" aria-label="Foto siguiente">›</button>
+</div>
 
 <!-- PIE -->
 <footer>
@@ -640,7 +660,6 @@ function polaroidInvitado(f, i, nueva){
   a.className = 'pola inv' + (nueva ? ' nueva' : '');
   a.dataset.id = f.id;
   a.href = `https://drive.google.com/file/d/${encodeURIComponent(f.id)}/view`;
-  a.target = '_blank'; a.rel = 'noopener';
   a.style.setProperty('--r', girosInv[i % girosInv.length] + 'deg');
   const img = document.createElement('img');
   img.loading = 'lazy'; img.alt = 'Foto de un invitado';
@@ -649,8 +668,64 @@ function polaroidInvitado(f, i, nueva){
   const pie = document.createElement('span');
   pie.className = 'pie-foto'; pie.textContent = piePolaroid(f.n);
   a.append(img, pie);
+  a.addEventListener('click', ev => { ev.preventDefault(); abrirVisor(a); });
   return a;
 }
+// visor de fotos a pantalla completa, dentro de la propia web
+let visorActual = null, visorHistoria = false;
+function verEnVisor(p){
+  visorActual = p;
+  const fotos = [...$('#inv-fotos').children], i = fotos.indexOf(p), img = $('#v-img');
+  const id = encodeURIComponent(p.dataset.id);
+  img.classList.add('cargando');
+  img.onload = () => img.classList.remove('cargando');
+  img.onerror = () => { img.onerror = null; img.src = `https://lh3.googleusercontent.com/d/${id}=w1600`; };
+  img.src = `https://drive.google.com/thumbnail?id=${id}&sz=w1600`;
+  $('#v-pie').textContent = p.querySelector('.pie-foto').textContent;
+  $('#v-cuenta').textContent = `${i + 1} de ${fotos.length}`;
+  $('#v-ant').hidden = i <= 0; $('#v-sig').hidden = i >= fotos.length - 1;
+  // precarga la siguiente
+  const sig = fotos[i + 1]; if (sig) new Image().src = `https://drive.google.com/thumbnail?id=${encodeURIComponent(sig.dataset.id)}&sz=w1600`;
+}
+function abrirVisor(p){
+  verEnVisor(p);
+  $('#visor').hidden = false; document.body.style.overflow = 'hidden';
+  if (!visorHistoria) { history.pushState({ visor:1 }, ''); visorHistoria = true; }
+  $('#v-cerrar').focus({ preventScroll:true });
+}
+function cerrarVisor(desdeAtras){
+  if ($('#visor').hidden) return;
+  $('#visor').hidden = true; document.body.style.overflow = '';
+  if (visorActual) visorActual.focus({ preventScroll:true });
+  if (visorHistoria) { visorHistoria = false; if (!desdeAtras) history.back(); }
+}
+function moverVisor(d){
+  if (!visorActual) return;
+  const otra = d > 0 ? visorActual.nextElementSibling : visorActual.previousElementSibling;
+  if (otra) { verEnVisor(otra); otra.scrollIntoView({ block:'nearest', inline:'center' }); }
+}
+(() => {
+  const v = $('#visor');
+  $('#v-cerrar').onclick = () => cerrarVisor();
+  $('#v-ant').onclick = () => moverVisor(-1);
+  $('#v-sig').onclick = () => moverVisor(1);
+  v.addEventListener('click', e => { if (e.target === v) cerrarVisor(); });
+  addEventListener('popstate', () => cerrarVisor(true));   // botón "atrás" del móvil
+  addEventListener('keydown', e => {
+    if (v.hidden) return;
+    if (e.key === 'Escape') cerrarVisor();
+    else if (e.key === 'ArrowRight') moverVisor(1);
+    else if (e.key === 'ArrowLeft') moverVisor(-1);
+  });
+  let x0 = null, y0 = 0;
+  v.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive:true });
+  v.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) moverVisor(dx < 0 ? 1 : -1);
+    else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) cerrarVisor();   // deslizar hacia abajo cierra
+  }, { passive:true });
+})();
 async function fotosInvitados(){
   try {
     const j = await (await fetch(`${BUZON}?lista=1&t=${Date.now()}`)).json();
@@ -667,7 +742,7 @@ async function fotosInvitados(){
     });
     // las que se han borrado de Drive desaparecen también de la web
     const enDrive = new Set((j.fotos || []).map(f => f.id));
-    [...caja.children].forEach(p => { if (!enDrive.has(p.dataset.id)) { fotosVistas.delete(p.dataset.id); p.remove(); } });
+    [...caja.children].forEach(p => { if (!enDrive.has(p.dataset.id)) { if (p === visorActual) cerrarVisor(); fotosVistas.delete(p.dataset.id); p.remove(); } });
     while (caja.children.length > 60) caja.lastElementChild.remove();
     $('#inv-cuenta').textContent = j.total === 1 ? '1 foto compartida' : `${j.total} fotos compartidas`;
     $('#inv-bloque').hidden = !j.total;

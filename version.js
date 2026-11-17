@@ -2,6 +2,16 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.15.2',
+    fecha: '2026-11-17 17:50',
+    titulo: 'Ver fotos en grande',
+    cambios: [
+      'Al tocar una foto de los invitados se abre en grande dentro de la web, sin pedir abrir la aplicación de Drive',
+      'Se pasa a la siguiente o anterior deslizando o con las flechas, y se cierra con la X, deslizando hacia abajo o con el botón "atrás" del móvil',
+      'Debajo de la foto aparece el nombre de quien la subió y la hora'
+    ]
+  },
+  {
     version: '1.15.1',
     fecha: '2026-11-17 12:35',
     titulo: 'Borrar fotos de invitados',
