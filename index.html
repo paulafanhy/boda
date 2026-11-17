@@ -152,6 +152,17 @@ footer .texto{font-size:var(--t-s)}
 .acceso{display:inline-block;margin-top:var(--e3);opacity:.35;color:var(--suave);font-size:var(--t-xs);text-decoration:none}
 .acceso:hover{opacity:.8}
 
+/* ---------- Fotos de los invitados ---------- */
+.inv-cuenta{font-family:var(--f-detalle);font-weight:600;font-size:var(--t-l);color:var(--beige-3);margin:var(--e5) 0 0}
+.inv-wrap .carrusel{margin-top:var(--e1);scroll-padding-inline:var(--e3)}
+.inv-wrap .pola{scroll-snap-align:start}
+.inv-wrap .carrusel{overflow-anchor:none}
+.pola.inv{text-decoration:none;color:inherit}
+.pola.inv img{background:var(--beige-2)}
+.pie-foto{position:absolute;left:0;right:0;bottom:var(--e1);font-family:var(--f-detalle);font-weight:600;font-size:var(--t-m);color:var(--texto);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 var(--e2)}
+@keyframes nuevaFoto{from{opacity:0;transform:translateY(24px) rotate(calc(var(--r,-2deg) + 10deg))}to{opacity:1;transform:rotate(var(--r,-2deg))}}
+@media (prefers-reduced-motion: no-preference){.pola.inv.nueva{animation:nuevaFoto .9s cubic-bezier(.2,.9,.25,1.15) both}}
+
 /* ---------- Música ---------- */
 #musica{position:fixed;right:var(--e2);bottom:var(--e2);z-index:10;width:48px;height:48px;border-radius:50%;border:0;background:var(--verde);color:var(--blanco);display:grid;place-items:center;box-shadow:0 6px 18px rgba(9,104,92,.3);cursor:pointer}
 #musica svg{width:22px;height:22px;fill:none;stroke:var(--blanco);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
@@ -178,8 +189,8 @@ footer .texto{font-size:var(--t-s)}
   html.anim .rama .mancha{opacity:0;transform:scale(.92);transform-origin:center;transform-box:fill-box}
   html.anim .rama.dibujada .trazo{stroke-dashoffset:0;transition:stroke-dashoffset .9s cubic-bezier(.45,.05,.3,1) var(--d,0s)}
   html.anim .rama.dibujada .mancha{opacity:1;transform:none;transition:opacity 1.4s ease .15s,transform 1.6s cubic-bezier(.2,.8,.2,1) .15s}
-  html.anim .galeria-wrap .pola{opacity:0;transform:translateY(24px) rotate(calc(var(--r,-2deg) + 8deg))}
-  html.anim .galeria-wrap.entra .pola{opacity:1;transform:rotate(var(--r,-2deg));transition:opacity .7s ease calc(var(--k,0) * 130ms),transform 1s cubic-bezier(.2,.9,.25,1.15) calc(var(--k,0) * 130ms)}
+  html.anim #galeria-wrap .pola{opacity:0;transform:translateY(24px) rotate(calc(var(--r,-2deg) + 8deg))}
+  html.anim #galeria-wrap.entra .pola{opacity:1;transform:rotate(var(--r,-2deg));transition:opacity .7s ease calc(var(--k,0) * 130ms),transform 1s cubic-bezier(.2,.9,.25,1.15) calc(var(--k,0) * 130ms)}
 }
 </style>
 <script>if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('anim')</script>
@@ -362,6 +373,15 @@ footer .texto{font-size:var(--t-s)}
     <p class="sub">queremos verlo todo a través de tus ojos</p>
     <p>Durante y después de la boda, sube aquí las fotos que hagas. Sin registrarte ni instalar nada.</p>
     <p><a class="btn" href="fotos.html">Subir fotos</a></p>
+    <div id="inv-bloque" hidden>
+      <p class="inv-cuenta" id="inv-cuenta"></p>
+      <div class="galeria-wrap inv-wrap">
+        <button class="flecha izq" id="inv-ant" aria-label="Fotos más recientes">‹</button>
+        <div class="carrusel" id="inv-fotos" aria-live="polite"></div>
+        <button class="flecha der" id="inv-sig" aria-label="Fotos anteriores">›</button>
+      </div>
+      <p><a class="btn sec" id="inv-drive" href="#" target="_blank" rel="noopener">Ver todas en Google Drive</a></p>
+    </div>
   </div>
 </section>
 
@@ -601,6 +621,68 @@ function carrusel(n){
   ['touchstart','pointerdown'].forEach(ev => c.addEventListener(ev, reiniciar, { passive:true }));
   marcar(); reiniciar();
 }
+
+// ---------- FOTOS DE LOS INVITADOS (Google Drive) ----------
+// La lista sale del script de Google de la cuenta de la boda. La más reciente va primero
+// y se actualiza sola cada 90 s mientras la sección está en pantalla.
+const BUZON = 'https://script.google.com/macros/s/AKfycbzQOCZ2qortMQnWnsUH_vzCPF47AasEimhxf3MJ2KGR1C1GkryIJhuJj2kQFz_NhX68/exec';
+const fotosVistas = new Set();
+const girosInv = [-3, 2, -1.5, 3, -2.5, 1.5];
+let invEnPantalla = false;
+function piePolaroid(nombre){
+  const p = String(nombre || '').replace(/\.[a-z0-9]+$/i, '').split(' · ');
+  const hora = (p[0] || '').slice(11, 16).replace('.', ':');
+  const quien = p[1] && p[1] !== 'invitado' ? p[1] : '';
+  return [quien, hora].filter(Boolean).join(' · ');
+}
+function polaroidInvitado(f, i, nueva){
+  const a = document.createElement('a');
+  a.className = 'pola inv' + (nueva ? ' nueva' : '');
+  a.href = `https://drive.google.com/file/d/${encodeURIComponent(f.id)}/view`;
+  a.target = '_blank'; a.rel = 'noopener';
+  a.style.setProperty('--r', girosInv[i % girosInv.length] + 'deg');
+  const img = document.createElement('img');
+  img.loading = 'lazy'; img.alt = 'Foto de un invitado';
+  img.src = `https://drive.google.com/thumbnail?id=${encodeURIComponent(f.id)}&sz=w600`;
+  img.onerror = () => { img.onerror = null; img.src = `https://lh3.googleusercontent.com/d/${encodeURIComponent(f.id)}=w600`; };
+  const pie = document.createElement('span');
+  pie.className = 'pie-foto'; pie.textContent = piePolaroid(f.n);
+  a.append(img, pie);
+  return a;
+}
+async function fotosInvitados(){
+  try {
+    const j = await (await fetch(`${BUZON}?lista=1&t=${Date.now()}`)).json();
+    if (!j || !j.ok) return;
+    const caja = $('#inv-fotos');
+    if (j.carpeta) $('#inv-drive').href = j.carpeta;
+    const primeraVez = fotosVistas.size === 0;
+    const alInicio = caja.scrollLeft < 60;
+    const nuevas = (j.fotos || []).filter(f => !fotosVistas.has(f.id));
+    // las nuevas van delante, en orden (la más reciente la primera)
+    nuevas.slice().reverse().forEach(f => {
+      fotosVistas.add(f.id);
+      caja.prepend(polaroidInvitado(f, fotosVistas.size, !primeraVez));
+    });
+    while (caja.children.length > 60) caja.lastElementChild.remove();
+    $('#inv-cuenta').textContent = j.total === 1 ? '1 foto compartida' : `${j.total} fotos compartidas`;
+    $('#inv-bloque').hidden = !j.total;
+    if (nuevas.length && !primeraVez && alInicio) caja.scrollTo({ left:0 });
+    const sobra = caja.scrollWidth > caja.clientWidth + 8;
+    $('#inv-ant').hidden = $('#inv-sig').hidden = !sobra;
+  } catch { /* sin conexión: se mantiene lo que ya se ve */ }
+}
+(() => {
+  const c = $('#inv-fotos');
+  const paso = () => (c.firstElementChild ? c.firstElementChild.offsetWidth + 16 : 280);
+  $('#inv-ant').onclick = () => c.scrollBy({ left:-paso() });
+  $('#inv-sig').onclick = () => c.scrollBy({ left:paso() });
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(es => es.forEach(e => { invEnPantalla = e.isIntersecting; if (invEnPantalla) fotosInvitados(); }), { threshold:0 }).observe($('#compartir'));
+  } else invEnPantalla = true;
+  setInterval(() => { if (invEnPantalla && !document.hidden) fotosInvitados(); }, 90000);
+  fotosInvitados();
+})();
 
 // ---------- MÚSICA ----------
 const ICO_ON = '<path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>';

@@ -406,6 +406,8 @@ $('#form-contenido').onsubmit = async e => {
 };
 
 try { $('#version').innerHTML = `Web v${WEB_VERSION.version} · actualizada el ${fechaBonita(WEB_VERSION.fecha)} · <a href="changelog.html">ver novedades</a>`; } catch {}
+// Enlace real a la carpeta de Drive de las fotos de invitados
+fetch('https://script.google.com/macros/s/AKfycbzQOCZ2qortMQnWnsUH_vzCPF47AasEimhxf3MJ2KGR1C1GkryIJhuJj2kQFz_NhX68/exec?lista=1').then(r => r.json()).then(j => { if (j && j.carpeta) $('#btn-drive').href = j.carpeta; }).catch(() => {});
 init();
 </script>
 </body>

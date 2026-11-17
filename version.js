@@ -2,6 +2,18 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.15.0',
+    fecha: '2026-11-17 10:00',
+    titulo: 'Fotos de los invitados en directo',
+    cambios: [
+      'En "Comparte tus fotos" aparece un carrusel con las fotos que van subiendo los invitados, la más reciente primero',
+      'El carrusel se actualiza solo mientras la página está abierta: las fotos nuevas entran con una pequeña animación',
+      'Cada foto lleva el nombre de quien la subió y la hora',
+      'Botón "Ver todas en Google Drive" para abrir la galería completa (solo lectura)',
+      'La página de subir fotos enlaza a las fotos de todos, y el botón de Drive del panel abre siempre la carpeta correcta'
+    ]
+  },
+  {
     version: '1.14.0',
     fecha: '2026-11-14 17:20',
     titulo: 'Sistema de diseño',
