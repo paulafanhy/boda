@@ -616,8 +616,14 @@ function portada(){
 }
 
 async function fotosHistoria(){
-  const { data } = await sb.storage.from('fotos-web').list('historia', { limit:100, sortBy:{ column:'name', order:'asc' } });
-  const fotos = (data || []).filter(f => f.id);
+  // el orden lo eligen las novias en el panel (contenido → orden_historia); las que no estén en la lista van al final
+  const [{ data }, ord] = await Promise.all([
+    sb.storage.from('fotos-web').list('historia', { limit:100, sortBy:{ column:'name', order:'asc' } }),
+    sb.from('contenido').select('valor').eq('clave', 'orden_historia').maybeSingle().then(r => r, () => ({}))
+  ]);
+  let lista = []; try { lista = JSON.parse((ord && ord.data && ord.data.valor) || '[]'); } catch {}
+  const pos = n => { const i = lista.indexOf(n); return i < 0 ? 1e6 : i; };
+  const fotos = (data || []).filter(f => f.id).sort((a, b) => pos(a.name) - pos(b.name) || a.name.localeCompare(b.name));
   if (!fotos.length) return;
   const giros = [-3, 2, -1.5, 3, -2.5, 1.5];
   $('#historia-fotos').innerHTML = fotos.map((f, i) => `<figure class="pola" style="--r:${giros[i % giros.length]}deg;--k:${Math.min(i, 6)}"><img loading="lazy" src="${urlFoto('historia/' + f.name)}" alt="Paula y Fanhy"></figure>`).join('');

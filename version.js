@@ -2,6 +2,16 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.17.0',
+    fecha: '2026-11-19 12:20',
+    titulo: 'Ordenar las fotos de la historia',
+    cambios: [
+      'Panel → Fotos: las fotos de vuestra historia se pueden ordenar manteniéndolas pulsadas y arrastrándolas',
+      'Cada foto lleva su número de posición y el orden se guarda solo',
+      'La web enseña las fotos en ese orden; las fotos nuevas se añaden al final'
+    ]
+  },
+  {
     version: '1.16.1',
     fecha: '2026-11-17 19:35',
     titulo: 'Panel más legible',
