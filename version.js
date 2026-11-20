@@ -2,6 +2,15 @@
 // Para añadir una versión nueva, pon la entrada nueva ARRIBA del todo.
 window.CHANGELOG = [
   {
+    version: '1.17.1',
+    fecha: '2026-11-20 10:45',
+    titulo: 'Sin acompañantes en el formulario',
+    cambios: [
+      'Quitada la pregunta de acompañantes del formulario de confirmación: cada invitado confirma por sí mismo',
+      'Panel: el contador de acompañantes solo aparece si alguna respuesta antigua los tenía'
+    ]
+  },
+  {
     version: '1.17.0',
     fecha: '2026-11-19 12:20',
     titulo: 'Ordenar las fotos de la historia',

@@ -346,13 +346,7 @@ footer .texto{font-size:var(--t-s)}
 
       <div id="si-viene" hidden>
         <div class="bloque">
-          <label for="f-acomp">¿Cuántos acompañantes vienen contigo?</label>
-          <input type="number" id="f-acomp" min="0" max="10" value="0" inputmode="numeric" style="max-width:120px">
-          <div id="caja-nombres" hidden>
-            <label for="f-nombres">Nombres de tus acompañantes</label>
-            <input type="text" id="f-nombres" maxlength="400">
-          </div>
-          <label for="f-alergias">Alergias, intolerancias o menú especial <span class="opc">(de todo el grupo)</span></label>
+          <label for="f-alergias">Alergias, intolerancias o menú especial</label>
           <textarea id="f-alergias" maxlength="500" placeholder="Ej.: celiaquía, vegetariano, alergia al marisco…"></textarea>
         </div>
 
@@ -819,9 +813,7 @@ const num = id => Math.max(0, Math.min(10, parseInt($(id).value, 10) || 0));
 form.addEventListener('change', () => {
   const si = form.asiste.value === 'si';
   $('#si-viene').hidden = !si;
-  $('#caja-nombres').hidden = num('#f-acomp') === 0;
 });
-$('#f-acomp').addEventListener('input', () => { $('#caja-nombres').hidden = num('#f-acomp') === 0; });
 
 function yaEnviado(nombre){
   $('#gracias-titulo').textContent = nombre ? `¡Gracias, ${nombre.split(' ')[0]}!` : '¡Gracias!';
@@ -829,7 +821,7 @@ function yaEnviado(nombre){
 }
 
 $('#otra').onclick = () => {
-  form.reset(); $('#si-viene').hidden = true; $('#caja-nombres').hidden = true;
+  form.reset(); $('#si-viene').hidden = true;
   $('#gracias').hidden = true; form.hidden = false;
   $('#f-nombre').focus();
 };
@@ -842,14 +834,14 @@ form.onsubmit = async e => {
   if (nombre.length < 2) { err.textContent = 'Escribe tu nombre, por favor.'; $('#f-nombre').focus(); return; }
   if (!asisteVal) { err.textContent = 'Dinos si podrás venir.'; return; }
   const asiste = asisteVal === 'si';
-  const acompanantes = asiste ? num('#f-acomp') : 0;
+  const acompanantes = 0;   // sin acompañantes: cada invitado confirma por sí mismo
 
   const fila = {
     nombre,
     telefono: $('#f-tel').value.trim() || null,
     asiste,
     acompanantes,
-    nombres_acompanantes: asiste && acompanantes ? ($('#f-nombres').value.trim() || null) : null,
+    nombres_acompanantes: null,
     alergias: asiste ? ($('#f-alergias').value.trim() || null) : null,
     duerme: asiste ? (form.duerme.value || 'nose') : 'no',
     desayuno: asiste && $('#f-desayuno').checked,

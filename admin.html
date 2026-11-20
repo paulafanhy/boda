@@ -258,7 +258,7 @@ function pintarStats(){
   const dup = invitados.length - lista.length;
   const datos = [
     [total, 'personas vienen'],
-    [acomp, 'de ellos, acompañantes'],
+    ...(acomp ? [[acomp, 'de ellos, acompañantes']] : []),   // solo si alguna respuesta antigua los trae
     [lista.length - si.length, 'respuestas "no vengo"'],
     [lista.length, 'respuestas en total'],
     [sum(r => r.duerme === 'si'), 'se quedan a dormir'],
